@@ -1,0 +1,60 @@
+========================================================================
+MANTECA YOUTH FOCUS WEBSITE
+INSTRUCTIONS FOR DIRECTORS (NO TECH KNOWLEDGE REQUIRED)
+========================================================================
+
+Hello! If you are reading this, it means you want to update the website.
+Don't worry—this is built to be extremely simple. You do NOT need to know how to code.
+
+Everything important is organized into little "Lego Blocks" that you can swap out.
+
+------------------------------------------------------------------------
+STEP 1: HOW TO CHANGE PICTURES
+------------------------------------------------------------------------
+Right now, there are "placeholder" pictures in several spots. 
+To add a real picture, you do not need to rewrite the code.
+
+1. Open the project folder on your computer.
+2. Go into the folder named "public", then go into the folder named "images".
+3. Here, you will see folders like "events" and "headers" and "gallery".
+4. To change the "Current Events" picture on the website:
+   - Find the file named "current-event-placeholder.png" inside the "events" folder.
+   - Delete it.
+   - Take your new picture, drag it into this exact same folder.
+   - RE-NAME your new picture to EXACTLY "current-event-placeholder.png"
+   - Refresh the website! The new picture will automatically appear exactly where it needs to go.
+
+*You can do this exact same trick for the Header Banner, the Contestant flyer, and the Action Gallery ribbon pictures! Just replace the picture file with a new one that has the exact same name.*
+
+------------------------------------------------------------------------
+STEP 2: HOW TO UPDATE THE MENU LINKS (URLS)
+------------------------------------------------------------------------
+Right now, if you click "Donate" or "Alumni", nothing happens. We need to add your actual Web Addresses (URLs) like Google Forms or PayPal links.
+
+1. Open the file named "TopNavigationBar.tsx" inside the "components" folder. You can open this in Notepad or VS Code.
+2. Scroll to the very top. Look for the big text box that says "MODULAR LINKS".
+3. You will see a list that looks like this:
+     alumni: "#",
+     donate: "#",
+4. Delete the hashtag (#) and paste your real web address inside the quotation marks!
+     alumni: "https://www.google.com",
+5. Save the file. That's it! Your buttons now work.
+
+------------------------------------------------------------------------
+STEP 3: HOW TO LAUNCH THE WEBSITE PREVIEW
+------------------------------------------------------------------------
+If you want to view the website locally on your computer to test it:
+1. Open up your "Terminal" or "Command Prompt".
+2. Type `npm run dev` and hit Enter.
+3. Open your internet browser (Chrome/Safari) and go to the web address: `http://localhost:3000`
+
+------------------------------------------------------------------------
+NEED TO CHANGE TEXT?
+------------------------------------------------------------------------
+Most of the text on the homepage (like the motto or mission statement) is inside the "page.tsx" file (inside the "app" folder) or the "HeaderBanner.tsx" file (inside the "components" folder).
+
+Simply open the file, search for the sentence you want to change, delete the words, type your new words, and click SAVE!
+
+========================================================================
+YOU'RE ALL SET!
+========================================================================

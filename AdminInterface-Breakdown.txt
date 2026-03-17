@@ -1,0 +1,479 @@
+================================================================================
+  MANTECA YOUTH FOCUS — ADMIN INTERFACE BREAKDOWN
+  For AI Builders, Technical Collaborators & Future Maintainers
+  Last Updated: March 2026
+================================================================================
+
+This document is a precise, technical breakdown of the MYF website's Admin
+Dashboard system. It covers the full tech stack, data architecture, how every
+piece functions, and exactly how to extend the system to new pages and features.
+Read this before touching any admin-related code.
+
+
+════════════════════════════════════════════════════════════════════════════════
+1. TECH STACK
+════════════════════════════════════════════════════════════════════════════════
+
+Frontend Framework : Next.js 14 (App Router) with TypeScript
+Styling            : Tailwind CSS v3
+Animations         : Framer Motion
+Icons              : Lucide React
+Backend / DB       : Supabase (PostgreSQL + Row Level Security)
+Auth               : Supabase Auth (email + password)
+File Storage       : Supabase Storage (bucket: "site-images", public)
+Image Optimization : next/image (with unoptimized=true for Supabase URLs)
+Package Manager    : npm
+Node Version       : >=18 (required for Next.js 14)
+
+
+════════════════════════════════════════════════════════════════════════════════
+2. ENVIRONMENT VARIABLES
+════════════════════════════════════════════════════════════════════════════════
+
+File: .env.local (project root — NOT committed to git)
+
+  NEXT_PUBLIC_SUPABASE_URL=https://<project-id>.supabase.co
+  NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
+
+The ANON key is safe to expose to the browser. Row Level Security (RLS) on
+Supabase ensures that unauthenticated users can ONLY READ data, never write.
+There is no separate SUPABASE_SERVICE_ROLE_KEY used — all admin writes happen
+through the browser client using the authenticated user's session token, which
+Supabase validates server-side via its JWT.
+
+
+════════════════════════════════════════════════════════════════════════════════
+3. SUPABASE DATABASE SCHEMA
+════════════════════════════════════════════════════════════════════════════════
+
+Table: public.site_content
+─────────────────────────────────
+  id          TEXT        PRIMARY KEY   (e.g. 'hero', 'events', 'gallery', 'programs')
+  data        JSONB       NOT NULL      (flexible JSON payload per section)
+  updated_at  TIMESTAMPTZ DEFAULT now()
+
+This is a SINGLE flexible table. Every editable website section maps to ONE ROW
+in this table identified by its `id`. The `data` column is a JSONB blob whose
+shape varies per section (see Section 5 for exact data shapes).
+
+Row Level Security Policies:
+  - "Public read"  → SELECT for all (unauthenticated users can read content)
+  - "Admin write"  → ALL for auth.role() = 'authenticated' (only logged-in admins write)
+
+Storage Bucket: site-images (public)
+  Storage RLS Policies:
+  - "Admin upload" → INSERT with check (bucket_id = 'site-images' AND authenticated)
+  - "Public view"  → SELECT using (bucket_id = 'site-images')
+  - "Admin delete" → DELETE using (bucket_id = 'site-images' AND authenticated)
+
+
+════════════════════════════════════════════════════════════════════════════════
+4. AUTHENTICATION FLOW
+════════════════════════════════════════════════════════════════════════════════
+
+1. Admin navigates to /admin-portal
+2. middleware.ts intercepts the request
+3. Middleware creates a server-side Supabase client, calls supabase.auth.getUser()
+4. If no valid session → redirects to /admin-portal/login
+5. If valid session + trying to access /admin-portal/login → redirects to /admin-portal
+6. Login page calls supabase.auth.signInWithPassword({ email, password })
+7. On success, Supabase sets a session cookie (handled by @supabase/ssr)
+8. router.push('/admin-portal') + router.refresh() triggers a server re-render
+9. Middleware now sees the valid session and allows access
+10. Logout: calls supabase.auth.signOut() on the browser client, then router.push('/admin-portal/login')
+
+Admin users are created manually in: Supabase Dashboard → Authentication → Users
+
+
+════════════════════════════════════════════════════════════════════════════════
+5. DATA SHAPES (JSONB per section)
+════════════════════════════════════════════════════════════════════════════════
+
+Each row in site_content has a `data` column with a section-specific shape:
+
+── hero ──────────────────────────────────────────────────────────────────────
+{
+  "imagePath": "https://...supabase.co/storage/v1/object/public/site-images/hero/..."
+}
+
+── events ────────────────────────────────────────────────────────────────────
+{
+  "currentEvents": {
+    "imagePath":         "https://...supabase.co/.../events/...",
+    "registrationLink":  "https://forms.google.com/...",
+    "headerText":        "Current Events",
+    "headerColor":       "#1E3354"
+  },
+  "contestantWidget": {
+    "imagePath":         "https://...supabase.co/.../events/...",
+    "registrationLink":  "https://forms.google.com/...",
+    "headerText":        "Become a Contestant",
+    "headerColor":       "#1a2b3c"
+  }
+}
+
+── gallery ───────────────────────────────────────────────────────────────────
+{
+  "images": [
+    "https://...supabase.co/.../gallery/image1.png",
+    "https://...supabase.co/.../gallery/image2.jpg",
+    ...
+  ]
+}
+
+── programs ──────────────────────────────────────────────────────────────────
+{
+  "scholarship":      "https://...",
+  "communityService": "https://...",
+  "alumni":           "https://..."
+}
+
+
+════════════════════════════════════════════════════════════════════════════════
+6. FILE STRUCTURE — COMPLETE MAP
+════════════════════════════════════════════════════════════════════════════════
+
+MYF Website/
+├── .env.local                              ← Supabase keys (never commit)
+├── middleware.ts                           ← Route protection for /admin-portal/*
+├── next.config.mjs                         ← Supabase Storage image domain allowlist
+│
+├── lib/
+│   ├── supabase.ts                         ← createClient() — browser Supabase client
+│   └── supabase-server.ts                  ← createServerSupabaseClient() — server client
+│
+├── app/
+│   ├── layout.tsx                          ← Root layout (uses ConditionalNav)
+│   ├── page.tsx                            ← Public homepage (fetches programs links)
+│   │
+│   ├── admin-portal/
+│   │   ├── layout.tsx                      ← Admin layout (dark bg, no public nav)
+│   │   ├── page.tsx                        ← Dashboard shell (sidebar + section panels)
+│   │   ├── components/
+│   │   │   └── AdminSidebar.tsx            ← Sidebar nav (tabs, View Site, Logout)
+│   │   └── sections/
+│   │       ├── HeroSection.tsx             ← Banner image upload + save
+│   │       ├── EventsSection.tsx           ← Events widgets (header, color, image, link)
+│   │       ├── GallerySection.tsx          ← Gallery image grid (add/delete)
+│   │       └── ProgramsSection.tsx         ← Program button links
+│   │
+│   └── api/
+│       ├── admin/
+│       │   ├── content/route.ts            ← GET/PUT site_content rows
+│       │   └── upload/route.ts             ← POST image → Supabase Storage
+│       └── auth/
+│           └── logout/route.ts             ← POST sign out
+│
+└── components/
+    ├── ConditionalNav.tsx                  ← Hides TopNavBar on /admin-portal routes
+    ├── TopNavigationBar.tsx                ← Public nav (unchanged)
+    ├── HeaderBanner.tsx                    ← Fetches hero.imagePath from DB
+    ├── CurrentEvents.tsx                   ← Fetches events.currentEvents from DB
+    ├── ContestantWidget.tsx                ← Fetches events.contestantWidget from DB
+    ├── ActionGallery.tsx                   ← Fetches gallery.images[] from DB
+    └── ServiceTeamSlideshow.tsx            ← (not yet wired to DB — static)
+
+
+════════════════════════════════════════════════════════════════════════════════
+7. API ROUTES — EXACT BEHAVIOR
+════════════════════════════════════════════════════════════════════════════════
+
+── GET /api/admin/content?section=<id> ──────────────────────────────────────
+  Returns the JSONB data for a given section row.
+  Response: { data: {...} | null }
+  Auth required: NO (public read, used by public-facing components too)
+  Error handling: Returns { data: null } for any DB error (missing table, missing
+  row) so the frontend always falls back to hardcoded defaults gracefully.
+
+── PUT /api/admin/content ───────────────────────────────────────────────────
+  Upserts a section row in site_content.
+  Body: { section: "events", data: { ...full section payload... } }
+  Response: { success: true }
+  Auth required: YES — calls supabase.auth.getUser(), returns 401 if invalid.
+  Uses Supabase's .upsert() with onConflict: 'id' (insert or update).
+  IMPORTANT: Always fetch existing data first and MERGE with the new widget's
+  data before upserting. This prevents one widget's save from wiping the other's.
+  Example pattern (in EventsSection):
+    1. GET /api/admin/content?section=events → existing data
+    2. const merged = { ...existing, currentEvents: newWidgetData }
+    3. PUT /api/admin/content with { section: 'events', data: merged }
+
+── POST /api/admin/upload ───────────────────────────────────────────────────
+  Accepts: multipart/form-data with fields:
+    file   → the File object
+    folder → storage subfolder (e.g. "hero", "events", "gallery")
+  Generates a unique filename: {folder}/{timestamp}-{random}.{ext}
+  Uploads to Supabase Storage bucket "site-images"
+  Returns: { url: "https://...supabase.co/storage/v1/object/public/site-images/..." }
+  Auth required: YES — validates session before upload.
+  The returned URL is then stored in the site_content data blob by the calling component.
+
+
+════════════════════════════════════════════════════════════════════════════════
+8. HOW EACH PUBLIC COMPONENT FETCHES DATA
+════════════════════════════════════════════════════════════════════════════════
+
+Every editable public component follows this exact pattern:
+
+  1. Declare state variables with hardcoded DEFAULT values (fallbacks).
+  2. In a useEffect (runs on mount), fetch /api/admin/content?section=<id>
+  3. If the response contains data, override the state with the DB values.
+  4. If the fetch fails or returns null, the hardcoded defaults stay in place.
+  5. Render using the state variables (never hardcoded values).
+
+Example (CurrentEvents.tsx):
+  const [headerText, setHeaderText] = useState("Current Events");   // ← default
+  const [headerColor, setHeaderColor] = useState("#1E3354");        // ← default
+  const [imagePath, setImagePath] = useState("/images/...");        // ← default
+  const [registrationLink, setRegistrationLink] = useState("#");    // ← default
+
+  useEffect(() => {
+    fetch('/api/admin/content?section=events')
+      .then(r => r.json())
+      .then(({ data }) => {
+        if (data?.currentEvents?.headerText) setHeaderText(data.currentEvents.headerText);
+        // ... same for all fields
+      });
+  }, []);
+
+The adaptive flyer slot (CurrentEvents + ContestantWidget) additionally:
+  - Uses a detectAspectRatio() helper that creates a JS Image object to probe
+    the uploaded image's naturalWidth / naturalHeight
+  - Computes a padding-top percentage: (1 / ratio) * 100, clamped 50%–140%
+  - Applies this as an inline style on a position:relative container
+  - The Next.js <Image fill> inside then fills this correctly sized container
+  - Result: horizontal, square, or vertical flyers all display without cropping
+
+
+════════════════════════════════════════════════════════════════════════════════
+9. HOW THE ADMIN DASHBOARD PANEL WORKS
+════════════════════════════════════════════════════════════════════════════════
+
+  app/admin-portal/page.tsx (the Dashboard Shell)
+  ─────────────────────────────────────────────────
+  - Client component that holds `activeSection` state (default: 'hero')
+  - Renders <AdminSidebar> and the active section component side-by-side
+  - Section components are mapped in SECTION_COMPONENTS object:
+      { hero: HeroSection, events: EventsSection, gallery: GallerySection, programs: ProgramsSection }
+  - Clicking a sidebar tab calls setActiveSection() → React re-renders with new panel
+
+  AdminSidebar.tsx
+  ─────────────────
+  - Receives activeSection + onSectionChange as props
+  - Renders NAV_ITEMS array (id, label, icon, description)
+  - Active tab highlighted with teal border + dot indicator
+  - "View Live Site" → opens "/" in a new tab
+  - "Logout" → calls supabase.auth.signOut() + router.push('/admin-portal/login')
+
+  Each Section Panel (e.g. EventsSection.tsx)
+  ─────────────────────────────────────────────
+  - Is a self-contained client component
+  - On mount: fetches current state from /api/admin/content
+  - Manages local state for all editable fields
+  - On Save: calls PUT /api/admin/content with the full merged section payload
+  - Toast notifications on success/error (auto-dismiss after 3.5 seconds)
+
+
+════════════════════════════════════════════════════════════════════════════════
+10. HOW TO ADD A NEW EDITABLE SECTION (STEP-BY-STEP)
+════════════════════════════════════════════════════════════════════════════════
+
+Scenario: You've added a new page or component (e.g. "Sponsors" section) and
+want directors to be able to edit it from the admin dashboard.
+
+STEP 1 — Define your data shape (the JSONB structure)
+  Decide what the section needs. Example for "Sponsors":
+  {
+    "title": "Our Sponsors",
+    "sponsorLogos": ["https://...", "https://..."],
+    "sponsorLink": "https://..."
+  }
+
+STEP 2 — Update the public-facing component to fetch from DB
+  In your component (e.g. components/SponsorsSection.tsx):
+    a. Add useState hooks for each editable field with hardcoded defaults.
+    b. Add a useEffect that calls /api/admin/content?section=sponsors
+    c. If data exists, update state with DB values.
+    d. Render using state values, not hardcoded strings.
+  NOTE: No changes to the API routes — the GET/PUT routes accept any section id.
+
+STEP 3 — Create the Admin Panel section file
+  Create: app/admin-portal/sections/SponsorsSection.tsx
+  Follow the exact same pattern as EventsSection.tsx or ProgramsSection.tsx:
+    a. On mount, fetch current data from /api/admin/content?section=sponsors
+    b. Build form inputs for each editable field (text inputs, links, image uploads)
+    c. On save: PUT /api/admin/content with { section: 'sponsors', data: {...} }
+    d. Show toast on success/failure.
+
+STEP 4 — Register the section in the dashboard
+  Open: app/admin-portal/page.tsx
+    a. Import your new SponsorsSection component.
+    b. Add 'sponsors' to the Section type union: type Section = 'hero' | ... | 'sponsors'
+    c. Add it to SECTION_COMPONENTS: { ..., sponsors: SponsorsSection }
+
+  Open: app/admin-portal/components/AdminSidebar.tsx
+    a. Add an entry to NAV_ITEMS:
+       { id: 'sponsors', label: 'Sponsors', icon: Building2, description: 'Logo links' }
+    b. Import the icon from lucide-react.
+
+STEP 5 — Update the Section type in the sidebar
+  In AdminSidebar.tsx, update the Section type to include 'sponsors'.
+
+That's it. No database migrations needed. No API changes. The section ID
+('sponsors') is all that connects the admin panel to the public component.
+
+For image uploads within the new section, use the existing /api/admin/upload
+route — just pass a different `folder` value in the form data (e.g. 'sponsors').
+
+
+════════════════════════════════════════════════════════════════════════════════
+11. ADDING AN ENTIRELY NEW PAGE WITH ADMIN CONTROL
+════════════════════════════════════════════════════════════════════════════════
+
+If a whole new page is added to the website (e.g. /gallery, /about, /contact)
+and you want it to be editable:
+
+1. Create the page at app/<pagename>/page.tsx
+2. Create whatever public components it needs under components/
+3. Each component fetches from /api/admin/content?section=<unique-section-id>
+4. Create admin section panels for each editable piece (same as Step 3 above)
+5. Add the sections to the sidebar (same as Step 4 above)
+
+There is NO limit to the number of sections you can add. Each section is just
+one row in the site_content table identified by its unique text ID.
+
+
+════════════════════════════════════════════════════════════════════════════════
+12. SUPABASE CLIENT USAGE RULES
+════════════════════════════════════════════════════════════════════════════════
+
+There are TWO Supabase client helpers:
+
+lib/supabase.ts → createClient()
+  - For use in CLIENT COMPONENTS ('use client' files) and the browser
+  - Uses createBrowserClient from @supabase/ssr
+  - Reads session from cookies automatically
+  - Use this in: login page, logout button, admin section panels
+
+lib/supabase-server.ts → createServerSupabaseClient()
+  - For use in SERVER COMPONENTS and middleware
+  - Uses createServerClient from @supabase/ssr with Next.js cookies()
+  - Use this in: middleware.ts, server-side API routes
+
+In API routes (app/api/...):
+  - Create a fresh client per request using createServerClient directly
+  - Pass request.cookies.getAll() to the cookie getter
+  - This allows the Supabase client to read the session from the request
+
+NEVER import createClient() (browser) in server-only files or middleware.
+NEVER import createServerSupabaseClient() in client components.
+
+
+════════════════════════════════════════════════════════════════════════════════
+13. THE CONDITIONALNAV PATTERN
+════════════════════════════════════════════════════════════════════════════════
+
+Problem: The root app/layout.tsx wraps ALL pages, including /admin-portal.
+The public TopNavigationBar must not appear on admin pages.
+
+Solution: components/ConditionalNav.tsx
+  - A 'use client' component
+  - Uses usePathname() from next/navigation
+  - If pathname starts with '/admin-portal' → renders null
+  - Otherwise → renders <TopNavigationBar />
+
+This pattern should be reused for any other global UI element (e.g. a footer,
+a cookie banner) that should NOT appear on admin pages.
+
+
+════════════════════════════════════════════════════════════════════════════════
+14. KNOWN LIMITATIONS & GOTCHAS
+════════════════════════════════════════════════════════════════════════════════
+
+1. NO real-time push to public site.
+   The public components fetch data on PAGE LOAD (useEffect). Visitors who
+   are already on the page when an admin saves changes will NOT see the update
+   until they refresh. This is intentional and acceptable for this use case.
+   To enable real-time updates, use Supabase's supabase.channel().on('postgres_changes')
+   inside the public components.
+
+2. Schema cache refresh.
+   If you alter the site_content table schema (add/remove columns), you must
+   run `NOTIFY pgrst, 'reload schema';` in Supabase SQL Editor to force
+   PostgREST to pick up the changes. Otherwise you'll get "column not found" errors.
+
+3. Supabase Storage image domain.
+   next/image will reject images from unknown domains. The Supabase Storage
+   domain is already whitelisted in next.config.mjs. If the project URL ever
+   changes (e.g. different Supabase project), update remotePatterns there.
+
+4. next/image + fill + unoptimized.
+   All Supabase Storage images use unoptimized={true} on next/image. This
+   disables Next.js's built-in image optimization CDN for these images.
+   If you want optimization, use <img> tags or configure a custom loader.
+
+5. The EventsSection save pattern ALWAYS merges.
+   When saving one widget (e.g. currentEvents), the handler first fetches the
+   existing full events object, then merges only the changed widget in, then
+   saves the merged result. This prevents one widget's save from wiping the other.
+   Any new sub-sections within a shared section row MUST follow this same pattern.
+
+6. Hardcoded defaults act as fallbacks.
+   Every public component has hardcoded default values. These serve as the
+   initial state before the DB fetch completes AND as a fallback if the DB
+   row doesn't exist yet. Defaults should always match the original design intent.
+
+
+════════════════════════════════════════════════════════════════════════════════
+15. QUICK REFERENCE — ADDING A FIELD TO AN EXISTING SECTION
+════════════════════════════════════════════════════════════════════════════════
+
+Example: Add a "subtitle" text field to the Current Events widget.
+
+1. app/admin-portal/sections/EventsSection.tsx
+   - Add `subtitle: string` to the WidgetState interface
+   - Add `subtitle: 'Default subtitle'` to DEFAULT_STATE.currentEvents
+   - Add a <input> in the EventWidget component bound to state.subtitle
+   - The save handler already saves the whole WidgetState, so no changes needed there.
+
+2. components/CurrentEvents.tsx
+   - Add `const [subtitle, setSubtitle] = useState("Default subtitle");`
+   - In the useEffect, add: if (data?.currentEvents?.subtitle) setSubtitle(...)
+   - Render <p>{subtitle}</p> wherever needed in the JSX
+
+No database schema changes. No API changes. Done.
+
+================================================================================
+  END OF DOCUMENT
+================================================================================
+
+--------------------------------------------------------------------------------
+16. ADVANCED DATA STRUCTURES (PHASE 2-5 EXPANSION)
+--------------------------------------------------------------------------------
+The dashboard was expanded to include 12 new modular pages. These utilize advanced
+JSONB data structures that showcase the system's flexibility:
+
+A. Dynamic Array Editors
+   Files like AboutBoardSection.tsx, JudgingCriteriaSection.tsx, and ContactAlumniSection.tsx
+   allow admins to add, remove, and reorder an infinite array of items (Contestants, 
+   Board Members, Images).
+   These are stored in the JSONB as:
+   { "members": [{ "name": "...", "role": "...", "image": "..." }, ...] }
+   To render, the public page simply .map()s over this array.
+
+B. Nested Schemas
+   Some sections, like ContestantForms, handle arrays INSIDE arrays.
+   (e.g., A list of "Steps", where each Step has a list of "Buttons").
+   The Admin Panel manages these via nested state updates.
+   Supabase JSONB accepts these infinitely deep structures without any schema migration.
+
+C. Raw HTML / Iframe Embeds
+   Files like ContestantSection.tsx, RequestScholarshipSection.tsx, and ContactReachSection.tsx 
+   include a "Raw Embed" textarea. Admins can paste <iframe src="..."></iframe> directly
+   from Google Forms or Google Maps.
+   The public page renders this safely using React's dangerouslySetInnerHTML.
+
+D. PDF Uploading
+   ContestantHandbookSection.tsx uses the exact same /api/admin/upload route 
+   as images. Since it returns a public URL, the frontend simply mounts the PDF 
+   in an <iframe src="...#toolbar=0"> tag to display the interactive PDF viewer natively.

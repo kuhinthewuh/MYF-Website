@@ -37,16 +37,18 @@ export default function ServiceTeamSlideshow() {
       transition={{ duration: 0.8, delay: 0.2 }}
       className="flex flex-col bg-myf-deep rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-xl h-full"
     >
+      {/* Top Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-           <h3 className="text-3xl md:text-4xl font-heading font-semibold text-white tracking-tight">Service Team</h3>
-           <p className="text-myf-soft text-sm mt-2 font-sans tracking-wide">Volunteer With Us</p>
+           <h3 className="text-3xl md:text-3xl font-heading font-bold text-white tracking-tight">Service Team</h3>
+           <p className="text-myf-soft text-xs mt-1 font-sans tracking-wide">Volunteer With Us</p>
         </div>
-        <div className="w-12 h-1 bg-myf-soft rounded-full" />
+        <div className="w-12 h-1 bg-myf-soft/50 rounded-full" />
       </div>
 
-      <div className="relative w-full aspect-[4/5] sm:aspect-square md:aspect-[4/5] lg:aspect-square bg-[#0a1828] rounded-2xl overflow-hidden mb-8 group">
-        <AnimatePresence mode='wait'>
+      {/* Massive Central Image Carousel */}
+      <div className="relative w-full flex-grow min-h-[350px] aspect-square bg-[#0a1828] rounded-2xl overflow-hidden mb-8 group">
+        <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
             initial={{ opacity: 0, scale: 1.05 }}
@@ -61,47 +63,35 @@ export default function ServiceTeamSlideshow() {
               fill
               className="object-cover"
             />
-            {/* Placeholder Fallback */}
-            <div className="absolute inset-0 flex items-center justify-center -z-10 text-white/20 font-sans text-sm p-4 text-center">
-              Service Team Image {currentIndex + 1}
+            {/* Fallback Text if image is missing */}
+            <div className="absolute inset-0 flex items-center justify-center -z-10 text-white/20 font-sans text-2xl font-bold p-4 text-center">
+              Service Team {currentIndex + 1}
             </div>
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation Arrows */}
-        <button 
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 hover:bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <button 
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 hover:bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
-
-        {/* Dots */}
-        <div className="absolute bottom-4 left-0 w-full flex justify-center gap-2 z-20">
+        {/* Carousel Dots matched to screenshot */}
+        <div className="absolute bottom-4 left-0 w-full flex justify-center gap-1.5 z-20">
           {SLIDESHOW_IMAGES.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
-              className={`w-2 h-2 rounded-full transition-all ${idx === currentIndex ? 'bg-myf-gold w-4' : 'bg-white/50 hover:bg-white'}`}
+              className={`w-1.5 h-1.5 rounded-full transition-all ${idx === currentIndex ? 'bg-myf-gold w-3' : 'bg-white/50 hover:bg-white'}`}
+              aria-label={`Go to slide ${idx + 1}`}
             />
           ))}
         </div>
       </div>
 
+      {/* Bottom Action Bar */}
       <a 
         href={REGISTRATION_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-auto group flex items-center justify-center gap-2 w-full bg-white text-myf-deep py-4 rounded-xl font-bold text-lg transition-all duration-300 hover:bg-myf-soft hover:text-white hover:shadow-[0_0_20px_rgba(141,198,223,0.3)]"
+        className="mt-auto group flex items-center justify-center gap-2 w-full bg-white text-myf-deep py-4 rounded-xl font-bold text-base transition-all duration-300 hover:bg-myf-soft hover:text-white"
       >
         Register Now!
-        <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+        <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
       </a>
     </motion.div>
   );

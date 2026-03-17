@@ -5,7 +5,7 @@
 @layer base {
   body {
     background-color: theme('colors.myf.bg');
-    color: theme('colors.myf.text');
+    color: theme('colors.myf.charcoal');
   }
 }
 
@@ -19,14 +19,14 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: theme('colors.myf.soft');
+  background: theme('colors.myf.teal');
   border-radius: 9999px;
   border: 2px solid theme('colors.myf.bg');
   transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: theme('colors.myf.blue');
+  background: theme('colors.myf.tealDeep');
   /* The glow cannot be applied via box-shadow on standard scrollbars cleanly in all browsers, 
      but changing the color provides a good hover state */
 }

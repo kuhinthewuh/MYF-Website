@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react';
 
 const DEFAULT_IMAGE = "/images/events/current-event-placeholder.png";
 const DEFAULT_LINK = "#";
-const DEFAULT_HEADER = "Current Events";
-const DEFAULT_COLOR = "#1E3354";
+const DEFAULT_HEADER = "Become a Contestant";
+const DEFAULT_COLOR = "#1a2b3c";
 
 function detectAspectRatio(url: string): Promise<number> {
   return new Promise((resolve) => {
@@ -25,7 +25,7 @@ function aspectToPaddingTop(ratio: number): string {
   return `${clamped.toFixed(1)}%`;
 }
 
-export default function CurrentEvents() {
+export default function ContestantWidget() {
   const [imagePath, setImagePath] = useState(DEFAULT_IMAGE);
   const [registrationLink, setRegistrationLink] = useState(DEFAULT_LINK);
   const [headerText, setHeaderText] = useState(DEFAULT_HEADER);
@@ -36,10 +36,10 @@ export default function CurrentEvents() {
     fetch('/api/admin/content?section=events')
       .then((r) => r.json())
       .then(({ data }) => {
-        if (data?.currentEvents?.imagePath) setImagePath(data.currentEvents.imagePath);
-        if (data?.currentEvents?.registrationLink) setRegistrationLink(data.currentEvents.registrationLink);
-        if (data?.currentEvents?.headerText) setHeaderText(data.currentEvents.headerText);
-        if (data?.currentEvents?.headerColor) setHeaderColor(data.currentEvents.headerColor);
+        if (data?.contestantWidget?.imagePath) setImagePath(data.contestantWidget.imagePath);
+        if (data?.contestantWidget?.registrationLink) setRegistrationLink(data.contestantWidget.registrationLink);
+        if (data?.contestantWidget?.headerText) setHeaderText(data.contestantWidget.headerText);
+        if (data?.contestantWidget?.headerColor) setHeaderColor(data.contestantWidget.headerColor);
       })
       .catch(() => {});
   }, []);
@@ -76,13 +76,13 @@ export default function CurrentEvents() {
       >
         <Image
           src={imagePath}
-          alt="Current Event Flyer"
+          alt="Become a Contestant Flyer"
           fill
           unoptimized
           className="object-contain p-3 transition-transform duration-700 group-hover:scale-[1.02]"
         />
         <div className="absolute inset-0 flex items-center justify-center -z-10 text-myf-muted/40 font-sans text-2xl font-bold">
-          Event Flyer
+          Contestant Flyer
         </div>
       </div>
 
