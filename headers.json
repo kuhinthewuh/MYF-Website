@@ -1,0 +1,11 @@
+{
+  "headers": {
+    "connection": "keep-alive",
+    "content-type": "application/json",
+    "date": "Tue, 17 Mar 2026 23:16:13 GMT",
+    "keep-alive": "timeout=5",
+    "transfer-encoding": "chunked",
+    "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch"
+  },
+  "body": "{\"data\":{\"imagePath\":\"https://vuvnensykfjyjlkjsspq.supabase.co/storage/v1/object/public/site-images/hero/1773765586139-0totolc3o42.png\"}}"
+}

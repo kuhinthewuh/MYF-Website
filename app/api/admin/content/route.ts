@@ -12,10 +12,17 @@ function createSupabaseClient(request: NextRequest) {
         },
         setAll() {},
       },
+      global: {
+        fetch: (url, options) => {
+          return fetch(url, { ...options, cache: 'no-store' });
+        }
+      }
     }
   );
   return supabase;
 }
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   const supabase = createSupabaseClient(request);
@@ -35,10 +42,20 @@ export async function GET(request: NextRequest) {
   // Gracefully return null for "row not found" OR if table doesn't exist yet.
   // The frontend components will fall back to their hardcoded defaults.
   if (error) {
-    return NextResponse.json({ data: null });
+    return NextResponse.json({ data: null }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'CDN-Cache-Control': 'no-store',
+      }
+    });
   }
 
-  return NextResponse.json({ data: data?.data ?? null });
+  return NextResponse.json({ data: data?.data ?? null }, {
+    headers: {
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      'CDN-Cache-Control': 'no-store',
+    }
+  });
 }
 
 export async function PUT(request: NextRequest) {
@@ -58,10 +75,21 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: 'Missing section or data' }, { status: 400 });
   }
 
+  // Fetch existing data so we can deep merge instead of obliterating
+  const { data: existingRow } = await supabase
+    .from('site_content')
+    .select('data')
+    .eq('id', targetSection)
+    .single();
+
+  const mergedData = existingRow?.data 
+    ? { ...existingRow.data, ...data } 
+    : data;
+
   const { error } = await supabase
     .from('site_content')
     .upsert(
-      { id: targetSection, data, updated_at: new Date().toISOString() },
+      { id: targetSection, data: mergedData, updated_at: new Date().toISOString() },
       { onConflict: 'id' }
     );
 
@@ -69,5 +97,5 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json({ success: true, data: mergedData });
 }

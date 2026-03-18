@@ -15,6 +15,7 @@ async function getDonateData() {
           return cookieStore.get(name)?.value;
         },
       },
+      global: { fetch: (url, options) => fetch(url, { ...options, cache: 'no-store' }) }
     }
   );
 

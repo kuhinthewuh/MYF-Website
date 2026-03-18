@@ -1,0 +1,98 @@
+﻿curl.exe : * Host 
+localhost:3000 was 
+resolved.
+At line:1 char:1
++ curl.exe -v "http://l
+ocalhost:3000/api/admin
+/content?section=hero" 
+2> ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (* Host localh   
+ ost:3000 was resol    
+ved.:String) [], R    
+emoteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+* IPv6: ::1
+* IPv4: 127.0.0.1
+  % Total    % 
+Received % Xferd  
+Average Speed  Time    
+Time    Time   Current
+                       
+          Dload  
+Upload  Total   Spent  
+ Left   Speed
+
+  0      0   0      0  
+ 0      0      0      
+0                      
+        0*   Trying 
+[::1]:3000...
+* Established 
+connection to 
+localhost (::1 port 
+3000) from ::1 port 
+59466 
+* using HTTP/1.x
+> GET /api/admin/conten
+t?section=hero HTTP/1.1
+
+> Host: localhost:3000
+
+> User-Agent: 
+curl/8.18.0
+
+> Accept: */*
+
+> 
+
+* Request completely 
+sent off
+< HTTP/1.1 200 OK
+
+< vary: RSC, Next-Route
+r-State-Tree, 
+Next-Router-Prefetch
+
+< content-type: 
+application/json
+
+< Date: Tue, 17 Mar 
+2026 23:15:42 GMT
+
+< Connection: 
+keep-alive
+
+< Keep-Alive: timeout=5
+
+< Transfer-Encoding: 
+chunked
+
+< 
+
+{ [148 bytes data]
+
+100    137   0    137  
+ 0      0    473      
+0                      
+        0
+100    137   0    137  
+ 0      0    473      
+0                      
+        0
+100    137   0    137  
+ 0      0    473      
+0                      
+        0
+* Connection #0 to 
+host localhost:3000 
+left intact
+{"data":{"imagePath":"https://vuvnensykfjyjlkjsspq.supabase.co/storage/v1/object/public/site-images/hero/1773765586139-0totolc3o42.png"}}
