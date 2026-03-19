@@ -1,24 +1,11 @@
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createServerSupabaseClient } from '@/lib/supabase-server';
 import Image from 'next/image';
 import { CheckCircle2 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 async function getContestantData() {
-  const cookieStore = cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-      },
-      global: { fetch: (url, options) => fetch(url, { ...options, cache: 'no-store' }) }
-    }
-  );
+  const supabase = await createServerSupabaseClient();
 
   const { data } = await supabase
     .from('site_content')

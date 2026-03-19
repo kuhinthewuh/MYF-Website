@@ -24,7 +24,9 @@ import {
   Building2,
   Phone,
   GraduationCap,
-  Globe
+  Globe,
+  Activity,
+  ShieldCheck
 } from 'lucide-react';
 
 export type Section = 
@@ -41,7 +43,9 @@ export type Section =
   // Contact
   | 'contact-reach' | 'contact-alumni'
   // Global Setup
-  | 'global-footer';
+  | 'global-footer'
+  // Features added
+  | 'analytics' | 'privacy-policy';
 
 type NavCategory = {
   title: string;
@@ -100,13 +104,20 @@ const NAV_GROUPS: NavCategory[] = [
     title: 'Global Setup',
     items: [
       { id: 'global-footer', label: 'Global Footer', icon: Globe },
+      { id: 'privacy-policy', label: 'Privacy Policy', icon: FileText },
+    ]
+  },
+  {
+    title: 'System',
+    items: [
+      { id: 'analytics', label: 'Analytics Dashboard', icon: Activity },
     ]
   }
 ];
 
 interface AdminSidebarProps {
   activeSection: Section;
-  onSectionChange: (s: Section) => void;
+  onSectionChange?: (s: Section) => void;
 }
 
 export default function AdminSidebar({ activeSection, onSectionChange }: AdminSidebarProps) {
@@ -166,7 +177,15 @@ export default function AdminSidebar({ activeSection, onSectionChange }: AdminSi
                   return (
                     <button
                       key={id}
-                      onClick={() => onSectionChange(id)}
+                      onClick={() => {
+                        if (id === 'analytics' || id === 'privacy-policy') {
+                          router.push(`/admin-portal/${id}`);
+                        } else if (window.location.pathname !== '/admin-portal') {
+                          router.push('/admin-portal');
+                        } else {
+                          onSectionChange?.(id as Section);
+                        }
+                      }}
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left group ${
                         isActive
                           ? 'bg-[#00B4CC]/15 border border-[#00B4CC]/20 text-white'

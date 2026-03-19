@@ -17,6 +17,8 @@ export const metadata: Metadata = {
 import ConditionalNav from "@/components/ConditionalNav";
 import ConditionalFooter from "@/components/ConditionalFooter";
 import GlobalFooter from "@/components/GlobalFooter";
+import CookieToast from "@/components/CookieToast";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 export default function RootLayout({
   children,
@@ -31,6 +33,8 @@ export default function RootLayout({
         <ConditionalFooter>
           <GlobalFooter />
         </ConditionalFooter>
+        <CookieToast />
+        <AnalyticsTracker />
       </body>
     </html>
   );
