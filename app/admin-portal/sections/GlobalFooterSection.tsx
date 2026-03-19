@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -33,6 +34,12 @@ const DEFAULT_STATE: GlobalFooterState = {
 };
 
 export default function GlobalFooterSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('global-footer', handleSave);
+    return () => unregisterSaveAction('global-footer');
+  });
+
   const [state, setState] = useState<GlobalFooterState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);

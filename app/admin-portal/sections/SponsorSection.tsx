@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -64,6 +65,12 @@ const DEFAULT_STATE: SponsorState = {
 };
 
 export default function SponsorSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('sponsor', handleSave);
+    return () => unregisterSaveAction('sponsor');
+  });
+
   const [state, setState] = useState<SponsorState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);

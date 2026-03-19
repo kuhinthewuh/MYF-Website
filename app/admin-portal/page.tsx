@@ -20,6 +20,8 @@ import DonateSection from './sections/DonateSection';
 import ContactReachSection from './sections/ContactReachSection';
 import ContactAlumniSection from './sections/ContactAlumniSection';
 import GlobalFooterSection from './sections/GlobalFooterSection';
+import { AdminSaveProvider, useAdminSave } from './components/AdminSaveContext';
+import { Save, Loader2 } from 'lucide-react';
 
 // Placeholder/Stub components for the upcoming 12 sections
 const PlaceholderSection = ({ title }: { title: string }) => (
@@ -51,18 +53,41 @@ const SECTION_COMPONENTS: Record<Section, React.ComponentType> = {
   'contact-reach': ContactReachSection,
   'contact-alumni': ContactAlumniSection,
   'global-footer': GlobalFooterSection,
+  // Dummies for the nextjs routes to satisfy the Record type
+  'analytics': () => null,
+  'privacy-policy': () => null,
 };
 
 export default function AdminDashboard() {
-  const [activeSection, setActiveSection] = useState<Section>('hero');
+  return (
+    <AdminSaveProvider>
+      <AdminDashboardContent />
+    </AdminSaveProvider>
+  );
+}
 
-  const ActiveComponent = SECTION_COMPONENTS[activeSection];
+function AdminDashboardContent() {
+  const [activeSection, setActiveSection] = useState<Section>('hero');
+  const { saveAll, isSavingAll } = useAdminSave();
+  
+  // To avoid fetching all sections data instantly on load, we only mount sections
+  // once the user clicks on them. Then they stay mounted forever, hidden via CSS.
+  const [mountedSections, setMountedSections] = useState<Set<Section>>(new Set(['hero']));
+
+  const handleSectionChange = (s: Section) => {
+    setActiveSection(s);
+    setMountedSections(prev => {
+      const next = new Set<Section>(prev);
+      next.add(s);
+      return next;
+    });
+  };
 
   return (
     <div className="flex bg-[#0d1117] h-screen overflow-hidden">
       <AdminSidebar
         activeSection={activeSection}
-        onSectionChange={setActiveSection}
+        onSectionChange={handleSectionChange}
       />
 
       {/* Main Content Area */}
@@ -73,15 +98,32 @@ export default function AdminDashboard() {
             <h1 className="text-white font-bold text-lg font-sans leading-tight">Website Manager</h1>
             <p className="text-white/30 text-xs font-sans">Changes publish instantly to the live site</p>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-            <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-            <span className="text-emerald-400 text-xs font-semibold font-sans">Live</span>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={saveAll}
+              disabled={isSavingAll}
+              className="flex items-center gap-2 px-5 py-2.5 bg-[#00B4CC] hover:bg-[#0092a6] text-white text-sm font-bold rounded-xl shadow-md transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {isSavingAll ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+              {isSavingAll ? 'Saving All...' : 'Save All Changes'}
+            </button>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+              <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+              <span className="text-emerald-400 text-xs font-semibold font-sans">Live</span>
+            </div>
           </div>
         </header>
 
         {/* Section Content */}
         <div className="p-8 max-w-4xl pb-32">
-          <ActiveComponent />
+          {Object.entries(SECTION_COMPONENTS).map(([id, Component]) => {
+            if (!mountedSections.has(id as Section)) return null;
+            return (
+              <div key={id} style={{ display: activeSection === id ? 'block' : 'none' }}>
+                <Component />
+              </div>
+            );
+          })}
         </div>
       </main>
     </div>

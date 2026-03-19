@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -49,6 +50,12 @@ const DEFAULT_STATE: AboutBoardState = {
 };
 
 export default function AboutBoardSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('about-board', handleSave);
+    return () => unregisterSaveAction('about-board');
+  });
+
   const [state, setState] = useState<AboutBoardState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   const [uploadingId, setUploadingId] = useState<string | null>(null);

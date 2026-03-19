@@ -1,6 +1,7 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Upload, Save, CheckCircle, Image as ImageIcon, Loader2 } from 'lucide-react';
 
 interface ToastState {
@@ -20,6 +21,12 @@ function Toast({ toast }: { toast: ToastState }) {
 }
 
 export default function HeroSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('hero', handleSave);
+    return () => unregisterSaveAction('hero');
+  });
+
   const [currentImageUrl, setCurrentImageUrl] = useState<string>('/images/headers/2026-banner.png');
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);

@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -22,6 +23,12 @@ const DEFAULT_STATE: ServiceJoinState = {
 };
 
 export default function ServiceJoinSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('service-join', handleSave);
+    return () => unregisterSaveAction('service-join');
+  });
+
   const [state, setState] = useState<ServiceJoinState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   

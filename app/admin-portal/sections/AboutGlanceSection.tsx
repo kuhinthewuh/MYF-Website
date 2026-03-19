@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -40,6 +41,12 @@ const DEFAULT_STATE: AboutGlanceState = {
 };
 
 export default function AboutGlanceSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('about-glance', handleSave);
+    return () => unregisterSaveAction('about-glance');
+  });
+
   const [state, setState] = useState<AboutGlanceState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);

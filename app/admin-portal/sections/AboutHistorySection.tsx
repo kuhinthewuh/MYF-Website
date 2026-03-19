@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -54,6 +55,12 @@ const COLOR_MAP: Record<string, string> = {
 };
 
 export default function AboutHistorySection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('about-history', handleSave);
+    return () => unregisterSaveAction('about-history');
+  });
+
   const [state, setState] = useState<AboutHistoryState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);

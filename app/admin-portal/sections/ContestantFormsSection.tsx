@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -38,6 +39,12 @@ const DEFAULT_STATE: ContestantFormsState = {
 };
 
 export default function ContestantFormsSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('competition-forms', handleSave);
+    return () => unregisterSaveAction('competition-forms');
+  });
+
   const [state, setState] = useState<ContestantFormsState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   const [expandedStep, setExpandedStep] = useState<number | null>(0);

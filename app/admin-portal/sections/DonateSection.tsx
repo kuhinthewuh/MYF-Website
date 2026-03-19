@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -29,6 +30,12 @@ const DEFAULT_STATE: DonateState = {
 };
 
 export default function DonateSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('donate', handleSave);
+    return () => unregisterSaveAction('donate');
+  });
+
   const [state, setState] = useState<DonateState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   

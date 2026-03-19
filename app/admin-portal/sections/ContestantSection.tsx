@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -21,6 +22,12 @@ const DEFAULT_STATE: ContestantState = {
 };
 
 export default function ContestantSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('competition-contestant', handleSave);
+    return () => unregisterSaveAction('competition-contestant');
+  });
+
   const [state, setState] = useState<ContestantState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);

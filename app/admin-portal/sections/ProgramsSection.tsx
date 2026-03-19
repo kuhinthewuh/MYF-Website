@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect } from 'react';
 import { Save, Link, CheckCircle, Loader2, GraduationCap, HeartHandshake, Star } from 'lucide-react';
@@ -55,6 +56,12 @@ const PROGRAMS = [
 ];
 
 export default function ProgramsSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('programs', handleSave);
+    return () => unregisterSaveAction('programs');
+  });
+
   const [links, setLinks] = useState<ProgramLinks>(DEFAULT_LINKS);
   const [saving, setSaving] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);

@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -28,6 +29,12 @@ const DEFAULT_STATE: ContactAlumniState = {
 };
 
 export default function ContactAlumniSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('contact-alumni', handleSave);
+    return () => unregisterSaveAction('contact-alumni');
+  });
+
   const [state, setState] = useState<ContactAlumniState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);

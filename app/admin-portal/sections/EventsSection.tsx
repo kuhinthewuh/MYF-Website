@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useRef, useEffect } from 'react';
 import { Upload, Save, Link, Loader2, CheckCircle, Image as ImageIcon, Type, Palette } from 'lucide-react';
@@ -199,6 +200,12 @@ const DEFAULT_STATE: Record<string, WidgetState> = {
 };
 
 export default function EventsSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('events', handleSave);
+    return () => unregisterSaveAction('events');
+  });
+
   const [widgets, setWidgets] = useState(DEFAULT_STATE);
   const [uploading, setUploading] = useState<string | null>(null);
   const [saving, setSaving] = useState<string | null>(null);

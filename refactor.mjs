@@ -1,53 +1,66 @@
-import fs from 'fs/promises';
+import fs from 'fs';
 import path from 'path';
 
-const files = [
-  'app/donate/page.tsx',
-  'app/contact/reach-out/page.tsx',
-  'app/competition/request-scholarship/page.tsx',
-  'app/competition/judging/page.tsx',
-  'app/competition/handbook/page.tsx',
-  'app/competition/forms/page.tsx',
-  'app/competition/contestant/page.tsx',
-  'app/contact/alumni-corner/page.tsx',
-  'app/about/history/page.tsx',
-  'app/about/board/page.tsx',
-  'app/about/at-a-glance/page.tsx',
-  'app/service-team/join/page.tsx',
-];
+const mapping = {
+  'HeroSection': 'hero',
+  'EventsSection': 'events',
+  'GallerySection': 'gallery',
+  'ProgramsSection': 'programs',
+  'AboutGlanceSection': 'about-glance',
+  'AboutHistorySection': 'about-history',
+  'AboutBoardSection': 'about-board',
+  'ContestantSection': 'competition-contestant',
+  'ContestantFormsSection': 'competition-forms',
+  'ContestantHandbookSection': 'competition-handbook',
+  'JudgingCriteriaSection': 'competition-judging',
+  'RequestScholarshipSection': 'competition-request',
+  'ServiceJoinSection': 'service-join',
+  'SponsorSection': 'sponsor',
+  'DonateSection': 'donate',
+  'ContactReachSection': 'contact-reach',
+  'ContactAlumniSection': 'contact-alumni',
+  'GlobalFooterSection': 'global-footer',
+};
 
-async function main() {
-  for (const file of files) {
-    const filePath = path.join(process.cwd(), file);
-    try {
-      let content = await fs.readFile(filePath, 'utf-8');
-      
-      // Replace import
-      content = content.replace(
-        /import\s*{\s*createServerClient\s*}\s*from\s*['"]@supabase\/ssr['"];?/,
-        "import { createServerSupabaseClient } from '@/lib/supabase-server';"
-      );
-      
-      // Replace instantiation block
-      content = content.replace(
-        /const\s+cookieStore\s*=\s*cookies\(\);\s*const\s+supabase\s*=\s*createServerClient\([\s\S]+?\);/,
-        "const supabase = await createServerSupabaseClient();"
-      );
-      
-      // Remove import { cookies } from 'next/headers' if cookies() is no longer used
-      if (!content.includes('cookies()') && !content.includes('cookieStore')) {
-         content = content.replace(
-           /import\s*{\s*cookies\s*}\s*from\s*['"]next\/headers['"];?\n/,
-           ""
-         );
+const dir = 'c:/Users/kusha/Downloads/MYF Website/app/admin-portal/sections';
+const files = fs.readdirSync(dir).filter(f => f.endsWith('.tsx'));
+
+for (const file of files) {
+  const filePath = path.join(dir, file);
+  let content = fs.readFileSync(filePath, 'utf8');
+  const componentName = file.replace('.tsx', '');
+  const sectionId = mapping[componentName];
+  
+  if (!sectionId) continue;
+  if (content.includes('useAdminSave')) continue;
+  
+  if (!content.includes('useEffect')) {
+    if (content.includes('import { useState } from')) {
+      content = content.replace("import { useState } from", "import { useState, useEffect } from");
+    } else if (content.includes('import { useState,')) {
+      content = content.replace("import { useState,", "import { useState, useEffect,");
+    } else if (content.includes('import React, { useState')) {
+      content = content.replace("import React, { useState", "import React, { useState, useEffect");
+    } else {
+      content = content.replace(/(import .+? from ['"]react['"];)/, "$1\nimport { useEffect } from 'react';");
+      if (!content.includes('useEffect } from')) {
+         content = "import { useEffect } from 'react';\n" + content;
       }
-      
-      await fs.writeFile(filePath, content, 'utf-8');
-      console.log(`Updated ${file}`);
-    } catch (e) {
-      console.error(`Failed on ${file}:`, e.message);
     }
   }
-}
+  
+  content = content.replace(/('use client';|use client;)/, `$1\nimport { useAdminSave } from '../components/AdminSaveContext';`);
+  
+  const regex = new RegExp(`export default function ${componentName}\\([^)]*\\)\\s*\\{`);
+  
+  if (!content.includes('handleSave')) {
+    console.log(`WARNING: ${componentName} has no handleSave`);
+    continue;
+  }
 
-main().catch(console.error);
+  const injectCode = `\n  const { registerSaveAction, unregisterSaveAction } = useAdminSave();\n  useEffect(() => {\n    registerSaveAction('${sectionId}', handleSave);\n    return () => unregisterSaveAction('${sectionId}');\n  });\n`;
+  content = content.replace(regex, (match) => match + injectCode);
+  
+  fs.writeFileSync(filePath, content, 'utf8');
+}
+console.log('Done refactoring!');

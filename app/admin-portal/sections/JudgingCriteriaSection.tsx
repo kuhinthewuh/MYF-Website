@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -53,6 +54,12 @@ const DEFAULT_STATE: JudgingCriteriaState = {
 };
 
 export default function JudgingCriteriaSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('competition-judging', handleSave);
+    return () => unregisterSaveAction('competition-judging');
+  });
+
   const [state, setState] = useState<JudgingCriteriaState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<number | null>(0);

@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -28,6 +29,12 @@ const DEFAULT_STATE: ContactReachState = {
 };
 
 export default function ContactReachSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('contact-reach', handleSave);
+    return () => unregisterSaveAction('contact-reach');
+  });
+
   const [state, setState] = useState<ContactReachState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   

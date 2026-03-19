@@ -1,4 +1,5 @@
 'use client';
+import { useAdminSave } from '../components/AdminSaveContext';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -18,6 +19,12 @@ const DEFAULT_STATE: RequestScholarshipState = {
 };
 
 export default function RequestScholarshipSection() {
+  const { registerSaveAction, unregisterSaveAction } = useAdminSave();
+  useEffect(() => {
+    registerSaveAction('competition-request', handleSave);
+    return () => unregisterSaveAction('competition-request');
+  });
+
   const [state, setState] = useState<RequestScholarshipState>(DEFAULT_STATE);
   const [isSaving, setIsSaving] = useState(false);
   
