@@ -26,7 +26,7 @@ export default function ActionGallery() {
           setCurrentIndex(0);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   // Auto-scroll logic (4 seconds interval)
@@ -119,8 +119,8 @@ export default function ActionGallery() {
                 key={idx}
                 onClick={(e) => { e.stopPropagation(); setCurrentIndex(idx); }}
                 className={`transition-all duration-300 rounded-full shadow-sm ${idx === currentIndex
-                    ? 'w-8 h-2.5 bg-myf-teal'
-                    : 'w-2.5 h-2.5 bg-white/50 hover:bg-white/90'
+                  ? 'w-8 h-2.5 bg-myf-teal'
+                  : 'w-2.5 h-2.5 bg-white/50 hover:bg-white/90'
                   }`}
                 aria-label={`Go to slide ${idx + 1}`}
               />

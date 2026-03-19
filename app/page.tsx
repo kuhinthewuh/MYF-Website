@@ -29,7 +29,7 @@ export default function Home() {
       .then(({ data }) => {
         if (data) setProgramLinks({ ...DEFAULT_LINKS, ...data });
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   return (

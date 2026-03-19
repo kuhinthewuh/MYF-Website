@@ -41,7 +41,7 @@ export default function ContestantWidget() {
         if (data?.contestantWidget?.headerText) setHeaderText(data.contestantWidget.headerText);
         if (data?.contestantWidget?.headerColor) setHeaderColor(data.contestantWidget.headerColor);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   useEffect(() => {

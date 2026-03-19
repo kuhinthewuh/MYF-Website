@@ -41,7 +41,7 @@ export default function CurrentEvents() {
         if (data?.currentEvents?.headerText) setHeaderText(data.currentEvents.headerText);
         if (data?.currentEvents?.headerColor) setHeaderColor(data.currentEvents.headerColor);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   useEffect(() => {
