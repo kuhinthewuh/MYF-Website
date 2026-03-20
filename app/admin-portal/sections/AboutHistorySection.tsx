@@ -4,7 +4,7 @@ import { useAdminSave } from '../components/AdminSaveContext';
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
 import { useToast, Toast } from '../components/Toast';
-import { Save, Plus, Trash2, GripVertical, Image as ImageIcon, ChevronDown } from 'lucide-react';
+import { Save, Plus, Trash2, GripVertical, Image as ImageIcon, ChevronDown, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
 import Image from 'next/image';
 
 interface DivisionState {
@@ -24,9 +24,28 @@ interface AboutHistoryState {
   categories: CategoryState[];
   memorialTitle: string;
   memorialText: string;
+  memorialAlign?: 'left' | 'center' | 'right';
   memorialImage: string;
   memorialWinners: string;
 }
+
+const renderAlignToggle = (current: 'left' | 'center' | 'right' = 'left', onChange: (val: 'left'|'center'|'right') => void) => (
+  <div className="flex gap-1 bg-black/20 p-1 rounded-lg w-fit mt-1">
+    {(['left', 'center', 'right'] as const).map(align => {
+      const Icon = align === 'left' ? AlignLeft : align === 'center' ? AlignCenter : AlignRight;
+      return (
+        <button
+          key={align}
+          onClick={(e) => { e.preventDefault(); onChange(align); }}
+          title={`Align ${align}`}
+          className={`p-1.5 rounded-md transition-colors ${current === align ? 'bg-[#00B4CC] text-white' : 'text-white/40 hover:text-white hover:bg-white/10'}`}
+        >
+          <Icon className="w-4 h-4" />
+        </button>
+      );
+    })}
+  </div>
+);
 
 const DEFAULT_CATEGORIES: CategoryState[] = [
   { title: 'The City Titles', accentColor: 'blue', divisions: [] },
@@ -348,7 +367,10 @@ export default function AboutHistorySection() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-white/70 mb-2 font-sans">Description Paragraph</label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-sm font-medium text-white/70 font-sans">Description Paragraph</label>
+                  {renderAlignToggle(state.memorialAlign || 'left', (val) => setState({ ...state, memorialAlign: val }))}
+                </div>
                 <textarea 
                   value={state.memorialText}
                   onChange={e => setState({ ...state, memorialText: e.target.value })}

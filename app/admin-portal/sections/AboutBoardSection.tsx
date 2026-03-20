@@ -4,7 +4,7 @@ import { useAdminSave } from '../components/AdminSaveContext';
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
 import { useToast, Toast } from '../components/Toast';
-import { Save, Plus, Trash2, Image as ImageIcon, GripVertical } from 'lucide-react';
+import { Save, Plus, Trash2, Image as ImageIcon, GripVertical, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
 import Image from 'next/image';
 
 interface OfficerRecord {
@@ -27,11 +27,13 @@ interface ProgramDirectorRecord {
   title: string;
   image: string;
   description: string;
+  align?: 'left' | 'center' | 'right';
 }
 
 interface AboutBoardState {
   heroTitle: string;
   heroText: string;
+  heroAlign?: 'left' | 'center' | 'right';
   boardMembersTitle: string;
   programDirectorsTitle: string;
   officers: OfficerRecord[];
@@ -48,6 +50,24 @@ const DEFAULT_STATE: AboutBoardState = {
   boardMembers: [],
   programDirectors: []
 };
+
+const renderAlignToggle = (current: 'left' | 'center' | 'right' = 'left', onChange: (val: 'left'|'center'|'right') => void) => (
+  <div className="flex gap-1 bg-black/20 p-1 rounded-lg w-fit mt-1">
+    {(['left', 'center', 'right'] as const).map(align => {
+      const Icon = align === 'left' ? AlignLeft : align === 'center' ? AlignCenter : AlignRight;
+      return (
+        <button
+          key={align}
+          onClick={(e) => { e.preventDefault(); onChange(align); }}
+          title={`Align ${align}`}
+          className={`p-1.5 rounded-md transition-colors ${current === align ? 'bg-[#00B4CC] text-white' : 'text-white/40 hover:text-white hover:bg-white/10'}`}
+        >
+          <Icon className="w-4 h-4" />
+        </button>
+      );
+    })}
+  </div>
+);
 
 export default function AboutBoardSection() {
   const { registerSaveAction, unregisterSaveAction } = useAdminSave();
@@ -223,7 +243,10 @@ export default function AboutBoardSection() {
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-white/70 mb-1 font-sans">Introduction Paragraph</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-medium text-white/70 font-sans">Introduction Paragraph</label>
+                {renderAlignToggle(state.heroAlign || 'left', (val) => setState({ ...state, heroAlign: val }))}
+              </div>
               <textarea 
                 value={state.heroText}
                 onChange={e => setState({ ...state, heroText: e.target.value })}
@@ -385,7 +408,10 @@ export default function AboutBoardSection() {
                        <input value={director.title} onChange={e => updateDirector(director.id, 'title', e.target.value)} className={inputClass} placeholder="Director of X" />
                      </div>
                      <div>
-                       <label className="block text-[10px] uppercase tracking-wider text-white/50 mb-1 font-sans">Description (Supports links [text](url))</label>
+                       <div className="flex items-center justify-between mb-1">
+                         <label className="block text-[10px] uppercase tracking-wider text-white/50 font-sans">Description (Supports links [text](url))</label>
+                         {renderAlignToggle(director.align || 'left', (val) => updateDirector(director.id, 'align', val as string))}
+                       </div>
                        <textarea value={director.description} onChange={e => updateDirector(director.id, 'description', e.target.value)} className={`${inputClass} min-h-[80px] resize-y`} placeholder="Description..." />
                      </div>
                    </div>

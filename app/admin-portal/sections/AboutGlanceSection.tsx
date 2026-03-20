@@ -4,14 +4,21 @@ import { useAdminSave } from '../components/AdminSaveContext';
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
 import { useToast, Toast } from '../components/Toast';
-import { Save, Plus, Trash2, GripVertical, Image as ImageIcon } from 'lucide-react';
+import { Save, Plus, Trash2, GripVertical, Image as ImageIcon, AlignLeft, AlignCenter, AlignRight, Link as LinkIcon } from 'lucide-react';
 import Image from 'next/image';
+
+interface ProgramLink {
+  url: string;
+  displayText: string;
+}
 
 interface ProgramCard {
   title: string;
   description: string;
+  align?: 'left' | 'center' | 'right';
   iconName: string; // 'star', 'users', 'music'
   buttonLink: string;
+  customLinks?: ProgramLink[];
 }
 
 interface AboutGlanceState {
@@ -19,11 +26,31 @@ interface AboutGlanceState {
   beliefsTitle: string;
   beliefsIconName: string;
   beliefsText: string;
+  beliefsAlign?: 'left' | 'center' | 'right';
   missionTitle: string;
   missionText: string;
+  missionAlign?: 'left' | 'center' | 'right';
   missionImage: string;
   programs: ProgramCard[];
 }
+
+const renderAlignToggle = (current: 'left' | 'center' | 'right' = 'left', onChange: (val: 'left'|'center'|'right') => void) => (
+  <div className="flex gap-1 bg-black/20 p-1 rounded-lg w-fit mt-1">
+    {(['left', 'center', 'right'] as const).map(align => {
+      const Icon = align === 'left' ? AlignLeft : align === 'center' ? AlignCenter : AlignRight;
+      return (
+        <button
+          key={align}
+          onClick={(e) => { e.preventDefault(); onChange(align); }}
+          title={`Align ${align}`}
+          className={`p-1.5 rounded-md transition-colors ${current === align ? 'bg-[#00B4CC] text-white' : 'text-white/40 hover:text-white hover:bg-white/10'}`}
+        >
+          <Icon className="w-4 h-4" />
+        </button>
+      );
+    })}
+  </div>
+);
 
 const DEFAULT_STATE: AboutGlanceState = {
   carouselImages: [],
@@ -230,7 +257,10 @@ export default function AboutGlanceSection() {
               </select>
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-white/70 mb-2 font-sans">Beliefs Text (Supports markdown links [text](url))</label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium text-white/70 font-sans">Beliefs Text (Supports markdown links [text](url))</label>
+                {renderAlignToggle(state.beliefsAlign || 'left', (val) => setState({ ...state, beliefsAlign: val }))}
+              </div>
               <textarea 
                 value={state.beliefsText}
                 onChange={e => setState({ ...state, beliefsText: e.target.value })}
@@ -253,7 +283,10 @@ export default function AboutGlanceSection() {
               />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-white/70 mb-2 font-sans">Mission Text (Supports markdown links [text](url))</label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium text-white/70 font-sans">Mission Text (Supports markdown links [text](url))</label>
+                {renderAlignToggle(state.missionAlign || 'left', (val) => setState({ ...state, missionAlign: val }))}
+              </div>
               <textarea 
                 value={state.missionText}
                 onChange={e => setState({ ...state, missionText: e.target.value })}
@@ -312,7 +345,10 @@ export default function AboutGlanceSection() {
                   </select>
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-xs font-medium text-white/70 mb-1 font-sans">Description (Supports shift+enter and markdown links)</label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-medium text-white/70 font-sans">Description (Supports shift+enter and markdown links)</label>
+                    {renderAlignToggle(prog.align || 'left', (val) => updateProgram(idx, 'align', val as string))}
+                  </div>
                   <textarea 
                     value={prog.description}
                     onChange={e => updateProgram(idx, 'description', e.target.value)}
@@ -327,6 +363,70 @@ export default function AboutGlanceSection() {
                     className={inputClass}
                   />
                 </div>
+                
+                {/* CUSTOM LINKS UI */}
+                <div className="md:col-span-2 bg-black/20 p-4 rounded-lg border border-white/5 space-y-3">
+                  <div className="flex items-center justify-between">
+                     <label className="block text-xs font-bold text-white/70 uppercase tracking-widest flex items-center gap-2">
+                        <LinkIcon className="w-3.5 h-3.5" /> Additional Custom Links
+                     </label>
+                     <button 
+                       onClick={(e) => {
+                         e.preventDefault();
+                         const newPrograms = [...state.programs];
+                         newPrograms[idx].customLinks = [...(newPrograms[idx].customLinks || []), { displayText: 'New Link', url: '#' }];
+                         setState(prev => ({ ...prev, programs: newPrograms }));
+                       }}
+                       className="text-xs flex items-center gap-1 text-[#00B4CC] hover:text-white transition-colors"
+                     >
+                        <Plus className="w-3 h-3" /> Add Link
+                     </button>
+                  </div>
+                  
+                  {(!prog.customLinks || prog.customLinks.length === 0) ? (
+                    <p className="text-[10px] text-white/30 italic">No extra links added.</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {prog.customLinks.map((link, linkIdx) => (
+                        <div key={linkIdx} className="flex items-center gap-2 bg-[#161b22] border border-white/10 p-2 rounded-lg">
+                          <input 
+                            className="bg-transparent text-xs text-white flex-1 min-w-0 outline-none placeholder:text-white/20" 
+                            placeholder="Display Text" 
+                            value={link.displayText} 
+                            onChange={e => {
+                               const newPrograms = [...state.programs];
+                               newPrograms[idx].customLinks![linkIdx].displayText = e.target.value;
+                               setState(prev => ({ ...prev, programs: newPrograms }));
+                            }} 
+                          />
+                          <div className="w-[1px] h-4 bg-white/10" />
+                          <input 
+                            className="bg-transparent text-xs text-white flex-1 min-w-0 outline-none placeholder:text-white/20" 
+                            placeholder="URL (target='_blank')" 
+                            value={link.url} 
+                            onChange={e => {
+                               const newPrograms = [...state.programs];
+                               newPrograms[idx].customLinks![linkIdx].url = e.target.value;
+                               setState(prev => ({ ...prev, programs: newPrograms }));
+                            }} 
+                          />
+                          <button 
+                            onClick={(e) => {
+                               e.preventDefault();
+                               const newPrograms = [...state.programs];
+                               newPrograms[idx].customLinks!.splice(linkIdx, 1);
+                               setState(prev => ({ ...prev, programs: newPrograms }));
+                            }}
+                            className="p-1 text-white/20 hover:text-red-400 hover:bg-red-500/10 rounded transition-all"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
               </div>
             </div>
           ))}

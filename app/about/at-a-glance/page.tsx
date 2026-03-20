@@ -37,11 +37,15 @@ const ICONS: Record<string, React.ElementType> = {
   music: Music,
 };
 
-// Rich text helper to parse `\n` into `<br/>` and `[Text](URL)` into `<a>` tags
-function RichText({ text }: { text: string }) {
+// Rich text helper to parse `[Text](URL)` into `<a>` tags and apply whitespace/alignment
+function RichText({ text, align = 'left' }: { text: string, align?: 'left' | 'center' | 'right' }) {
   if (!text) return null;
+  
+  // Use Tailwind class to control multi-line text alignment securely
+  const alignClass = align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left';
+
   return (
-    <>
+    <div className={`whitespace-pre-wrap ${alignClass}`}>
       {text.split('\n').map((line, i) => {
         const parts = line.split(/(\[[^\]]+\]\([^)]+\))/g);
         return (
@@ -61,7 +65,7 @@ function RichText({ text }: { text: string }) {
           </span>
         );
       })}
-    </>
+    </div>
   );
 }
 
@@ -104,9 +108,9 @@ export default async function AboutAtAGlance() {
             </h2>
             <div className="w-10 h-1.5 bg-myf-teal rounded-full mt-4 mx-auto md:mx-0" />
           </div>
-          <p className="text-xl md:text-2xl leading-relaxed text-myf-muted font-light">
-            <RichText text={data.beliefsText} />
-          </p>
+          <div className="text-xl md:text-2xl leading-relaxed text-myf-muted font-light w-full">
+            <RichText text={data.beliefsText} align={data.beliefsAlign} />
+          </div>
         </section>
 
         {/* 3. MIDDLE SECTION: Our Mission (Horizontal Space with Image) */}
@@ -118,9 +122,9 @@ export default async function AboutAtAGlance() {
               {data.missionTitle}
               <span className="w-16 h-1.5 bg-myf-gold rounded-full" />
             </h2>
-            <p className="text-lg md:text-xl leading-relaxed text-white/90">
-              <RichText text={data.missionText} />
-            </p>
+            <div className="text-lg md:text-xl leading-relaxed text-white/90">
+              <RichText text={data.missionText} align={data.missionAlign} />
+            </div>
           </div>
 
           {data.missionImage ? (
@@ -152,8 +156,27 @@ export default async function AboutAtAGlance() {
                   </div>
 
                   <h3 className="text-2xl font-bold text-myf-charcoal mb-4 shrink-0">{prog.title}</h3>
-                  <div className="text-myf-muted mb-8 flex-1 leading-relaxed text-base break-words">
-                    <RichText text={prog.description} />
+                  <div className="text-myf-muted mb-6 flex-1 leading-relaxed text-base break-words">
+                    <RichText text={prog.description} align={prog.align} />
+                    
+                    {prog.customLinks && prog.customLinks.length > 0 && (
+                      <div className={`mt-4 space-y-2 flex flex-col ${prog.align === 'center' ? 'items-center' : prog.align === 'right' ? 'items-end' : 'items-start'}`}>
+                        {prog.customLinks.map((link: any, lIdx: number) => (
+                          <Link 
+                            key={lIdx} 
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-myf-teal hover:text-myf-deep font-semibold transition-all hover:translate-x-1 group/link"
+                          >
+                            <span className="border-b border-transparent group-hover/link:border-myf-deep">{link.displayText}</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform -translate-y-px">
+                               <path d="M5 19L19 5M19 5V15M19 5H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <Link

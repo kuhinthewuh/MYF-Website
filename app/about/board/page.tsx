@@ -23,11 +23,15 @@ async function getBoardData() {
   };
 }
 
-// Rich text helper to parse `\n` into `<br/>` and `[Text](URL)` into `<a>` tags
-function RichText({ text }: { text: string }) {
+// Rich text helper to parse `[Text](URL)` into `<a>` tags and apply whitespace/alignment
+function RichText({ text, align = 'left' }: { text: string, align?: 'left' | 'center' | 'right' }) {
   if (!text) return null;
+  
+  // Use Tailwind class to control multi-line text alignment securely
+  const alignClass = align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left';
+
   return (
-    <>
+    <div className={`whitespace-pre-wrap ${alignClass}`}>
       {text.split('\n').map((line, i) => {
         const parts = line.split(/(\[[^\]]+\]\([^)]+\))/g);
         return (
@@ -47,7 +51,7 @@ function RichText({ text }: { text: string }) {
           </span>
         );
       })}
-    </>
+    </div>
   );
 }
 
@@ -63,9 +67,9 @@ export default async function BoardPage() {
           {data.heroTitle}
         </h1>
         <div className="w-24 h-1.5 bg-myf-teal rounded-full mx-auto mb-8" />
-        <p className="text-xl text-myf-muted leading-relaxed">
-          {data.heroText}
-        </p>
+        <div className="text-xl text-myf-muted leading-relaxed w-full">
+          <RichText text={data.heroText} align={data.heroAlign} />
+        </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
@@ -157,10 +161,10 @@ export default async function BoardPage() {
                      )}
                    </div>
                    <h3 className="text-xl font-bold text-myf-charcoal text-center mb-1">{director.name}</h3>
-                   <p className="text-sm font-semibold text-myf-coral tracking-wide uppercase text-center mb-4">{director.title}</p>
-                   <p className="text-sm text-myf-muted leading-relaxed text-center block flex-1">
-                      <RichText text={director.description} />
-                   </p>
+                   <p className="text-sm font-semibold text-myf-teal tracking-wide uppercase text-center mb-4">{director.title}</p>
+                   <div className="text-sm text-myf-muted leading-relaxed w-full flex-1">
+                      <RichText text={director.description} align={director.align} />
+                   </div>
                  </div>
                ))}
              </div>

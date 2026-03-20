@@ -83,7 +83,7 @@ export default async function HistoryPage() {
             </h2>
             <div className="w-24 h-1.5 bg-gradient-to-r from-myf-gold to-myf-coral rounded-full mx-auto" />
             
-            <p className="text-lg md:text-xl leading-relaxed text-white/90 max-w-3xl mx-auto font-light">
+            <p className={`text-lg md:text-xl leading-relaxed text-white/90 max-w-3xl mx-auto font-light whitespace-pre-wrap ${data.memorialAlign === 'center' ? 'text-center' : data.memorialAlign === 'right' ? 'text-right' : 'text-left'}`}>
               {data.memorialText?.split('\n').map((line: string, i: number) => (
                 <span key={i}>{line}<br /></span>
               ))}

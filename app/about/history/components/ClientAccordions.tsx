@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
 interface DivisionState {
@@ -39,7 +38,8 @@ export default function ClientAccordions({ categories }: { categories: CategoryS
           >
             {/* Header / Trigger */}
             <button
-              onClick={() => setOpenIndex(isOpen ? null : idx)}
+              type="button"
+              onClick={(e) => { e.preventDefault(); setOpenIndex(isOpen ? null : idx); }}
               className={`w-full px-6 py-5 flex items-center justify-between transition-colors ${isOpen ? style.bg : 'hover:bg-gray-50'}`}
             >
               <h3 className={`text-xl font-bold font-heading ${isOpen ? style.text : 'text-myf-charcoal'}`}>
@@ -51,42 +51,35 @@ export default function ClientAccordions({ categories }: { categories: CategoryS
             </button>
 
             {/* Expandable Content */}
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
-                >
-                  <div className="px-6 pb-6 pt-2">
-                    {cat.divisions && cat.divisions.length > 0 ? (
-                      <div className="space-y-8">
-                        {cat.divisions.map((div, wIdx) => (
-                          <div key={wIdx}>
-                            <h4 className={`font-bold mb-3 pb-2 border-b uppercase tracking-wider text-sm ${style.text} ${style.border}`}>
-                              {div.name}
-                            </h4>
-                            <ul className="text-gray-700 leading-relaxed space-y-2">
-                              {div.winnersText.split('\n').map((line, lIdx) => 
-                                line.trim() ? (
-                                  <li key={lIdx} className="flex gap-3 items-start">
-                                    <span className={`${style.text} mt-0.5`}>•</span>
-                                    <span>{line}</span>
-                                  </li>
-                                ) : null
-                              )}
-                            </ul>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-gray-400 italic py-4 text-center">No titleholders recorded yet.</p>
-                    )}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+              <div className="overflow-hidden">
+                <div className="px-6 pb-6 pt-2">
+                  {cat.divisions && cat.divisions.length > 0 ? (
+                    <div className="space-y-8">
+                      {cat.divisions.map((div, wIdx) => (
+                        <div key={wIdx}>
+                          <h4 className={`font-bold mb-3 pb-2 border-b uppercase tracking-wider text-sm ${style.text} ${style.border}`}>
+                            {div.name}
+                          </h4>
+                          <ul className="text-gray-700 leading-relaxed space-y-2">
+                            {div.winnersText.split('\n').map((line, lIdx) => 
+                              line.trim() ? (
+                                <li key={lIdx} className="flex gap-3 items-start">
+                                  <span className={`${style.text} mt-0.5`}>•</span>
+                                  <span>{line}</span>
+                                </li>
+                              ) : null
+                            )}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-400 italic py-4 text-center">No titleholders recorded yet.</p>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         );
       })}
