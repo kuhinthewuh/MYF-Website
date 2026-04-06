@@ -33,6 +33,11 @@ const config: Config = {
         sans: ['var(--font-inter)'],
         heading: ['var(--font-poppins)'],
       },
+      maxWidth: {
+        '5xl': '1280px',
+        '6xl': '90%',
+        '7xl': '96%',
+      },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out forwards',
         'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
