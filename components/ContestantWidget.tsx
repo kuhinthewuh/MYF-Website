@@ -9,28 +9,13 @@ const DEFAULT_IMAGE = "/images/events/current-event-placeholder.png";
 const DEFAULT_LINK = "#";
 const DEFAULT_HEADER = "Become a Contestant";
 const DEFAULT_COLOR = "#1a2b3c";
-
-function detectAspectRatio(url: string): Promise<number> {
-  return new Promise((resolve) => {
-    const img = new window.Image();
-    img.onload = () => resolve(img.naturalWidth / img.naturalHeight);
-    img.onerror = () => resolve(1);
-    img.src = url;
-  });
-}
-
-function aspectToPaddingTop(ratio: number): string {
-  const pct = (1 / ratio) * 100;
-  const clamped = Math.min(140, Math.max(50, pct));
-  return `${clamped.toFixed(1)}%`;
-}
+// Extracted complex calculations in favor of native intrinsic layout.
 
 export default function ContestantWidget({ initialData }: { initialData?: any }) {
   const [imagePath, setImagePath] = useState(DEFAULT_IMAGE);
   const [registrationLink, setRegistrationLink] = useState(DEFAULT_LINK);
   const [headerText, setHeaderText] = useState(DEFAULT_HEADER);
   const [headerColor, setHeaderColor] = useState(DEFAULT_COLOR);
-  const [paddingTop, setPaddingTop] = useState('100%');
 
   useEffect(() => {
     if (initialData?.imagePath) setImagePath(initialData.imagePath);
@@ -38,12 +23,6 @@ export default function ContestantWidget({ initialData }: { initialData?: any })
     if (initialData?.headerText) setHeaderText(initialData.headerText);
     if (initialData?.headerColor) setHeaderColor(initialData.headerColor);
   }, [initialData]);
-
-  useEffect(() => {
-    detectAspectRatio(imagePath).then((ratio) => {
-      setPaddingTop(aspectToPaddingTop(ratio));
-    });
-  }, [imagePath]);
 
   return (
     <motion.div
@@ -65,19 +44,14 @@ export default function ContestantWidget({ initialData }: { initialData?: any })
       </div>
 
       {/* Adaptive Flyer Slot */}
-      <div
-        className="relative w-full mb-8 bg-[#F1F5F9] rounded-2xl overflow-hidden group transition-all duration-700"
-        style={{ paddingTop, minHeight: '200px' }}
-      >
-        <Image
-          src={imagePath}
-          alt="Become a Contestant Flyer"
-          fill
-          unoptimized
-          className="object-contain p-3 transition-transform duration-700 group-hover:scale-[1.02]"
-        />
-        <div className="absolute inset-0 flex items-center justify-center -z-10 text-myf-muted/40 font-sans text-2xl font-bold">
-          Contestant Flyer
+      <div className="flex-1 flex flex-col justify-center w-full mb-8">
+        <div className="relative w-full rounded-2xl overflow-hidden group transition-all duration-700 shadow-sm">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={imagePath}
+            alt="Become a Contestant Flyer"
+            className="w-full h-auto rounded-2xl transition-transform duration-700 group-hover:scale-[1.02]"
+          />
         </div>
       </div>
 
