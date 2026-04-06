@@ -66,7 +66,7 @@ export default function ServiceJoinSection() {
     }
   }
 
-  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
+  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
@@ -79,7 +79,7 @@ export default function ServiceJoinSection() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00B4CC] to-[#0092a6] hover:from-[#00c5e0] hover:to-[#00a3b8] text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           {isSaving ? 'Saving...' : 'Save Changes'}
@@ -89,10 +89,10 @@ export default function ServiceJoinSection() {
       <div className="grid gap-6">
         
         {/* RECRUITING STATUS */}
-        <section className={`bg-white/5 border rounded-2xl p-6 space-y-4 transition-colors ${state.isRecruiting ? 'border-[#00B4CC]/30' : 'border-red-500/30'}`}>
+        <section className={`bg-white/5 border rounded-2xl p-6 space-y-4 transition-colors ${state.isRecruiting ? 'border-myf-teal/30' : 'border-red-500/30'}`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-full ${state.isRecruiting ? 'bg-[#00B4CC]/20 text-[#00B4CC]' : 'bg-red-500/20 text-red-500'}`}>
+              <div className={`p-2 rounded-full ${state.isRecruiting ? 'bg-myf-teal/20 text-myf-teal' : 'bg-red-500/20 text-red-500'}`}>
                 <AlertCircle className="w-5 h-5" />
               </div>
               <div>
@@ -109,7 +109,7 @@ export default function ServiceJoinSection() {
                 checked={state.isRecruiting} 
                 onChange={(e) => setState({ ...state, isRecruiting: e.target.checked })} 
               />
-              <div className="w-14 h-7 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#00B4CC]"></div>
+              <div className="w-14 h-7 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-myf-teal"></div>
               <span className="ml-3 text-sm font-bold text-white uppercase tracking-wider">
                 {state.isRecruiting ? 'Open' : 'Closed'}
               </span>

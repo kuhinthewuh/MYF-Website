@@ -45,7 +45,7 @@ export type Section =
   // Global Setup
   | 'global-footer'
   // Features added
-  | 'analytics' | 'privacy-policy';
+  | 'analytics' | 'privacy-policy' | 'theme-studio';
 
 type NavCategory = {
   title: string;
@@ -110,6 +110,7 @@ const NAV_GROUPS: NavCategory[] = [
   {
     title: 'System',
     items: [
+      { id: 'theme-studio', label: 'Theme Studio', icon: ImageIcon },
       { id: 'analytics', label: 'Analytics Dashboard', icon: Activity },
     ]
   }
@@ -143,7 +144,7 @@ export default function AdminSidebar({ activeSection, onSectionChange }: AdminSi
       {/* Brand Header */}
       <div className="p-6 border-b border-white/8 shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-[#00B4CC] via-[#C8962E] to-[#E8734A] rounded-xl flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 bg-gradient-to-br from-myf-teal via-[#C8962E] to-[#E8734A] rounded-xl flex items-center justify-center flex-shrink-0">
             <Star className="w-5 h-5 text-white fill-white/30" />
           </div>
           <div>
@@ -165,7 +166,7 @@ export default function AdminSidebar({ activeSection, onSectionChange }: AdminSi
                 onClick={() => toggleGroup(group.title)}
                 className="w-full flex items-center justify-between px-2 py-2 text-white/40 hover:text-white/70 transition-colors group/btn"
               >
-                <span className={`text-[11px] font-bold uppercase tracking-widest font-sans ${hasActiveItem && !isOpen ? 'text-[#00B4CC]' : ''}`}>
+                <span className={`text-[11px] font-bold uppercase tracking-widest font-sans ${hasActiveItem && !isOpen ? 'text-myf-teal' : ''}`}>
                   {group.title}
                 </span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
@@ -188,18 +189,18 @@ export default function AdminSidebar({ activeSection, onSectionChange }: AdminSi
                       }}
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left group ${
                         isActive
-                          ? 'bg-[#00B4CC]/15 border border-[#00B4CC]/20 text-white'
+                          ? 'bg-myf-teal/15 border border-myf-teal/20 text-white'
                           : 'text-white/50 hover:text-white hover:bg-white/5 border border-transparent'
                       }`}
                     >
                       <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 transition-all ${
-                        isActive ? 'bg-[#00B4CC]/20' : 'bg-white/5 group-hover:bg-white/10'
+                        isActive ? 'bg-myf-teal/20' : 'bg-white/5 group-hover:bg-white/10'
                       }`}>
-                        <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#00B4CC]' : 'text-white/40 group-hover:text-white/70'}`} />
+                        <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-myf-teal' : 'text-white/40 group-hover:text-white/70'}`} />
                       </div>
                       <p className="text-sm font-semibold font-sans leading-tight flex-1 truncate">{label}</p>
                       {isActive && (
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#00B4CC]" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-myf-teal" />
                       )}
                     </button>
                   );

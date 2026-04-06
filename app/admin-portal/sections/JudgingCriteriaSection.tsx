@@ -157,8 +157,8 @@ export default function JudgingCriteriaSection() {
     setState(prev => ({ ...prev, categories: newCats }));
   }
 
-  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
-  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
+  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
+  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
@@ -171,7 +171,7 @@ export default function JudgingCriteriaSection() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00B4CC] to-[#0092a6] hover:from-[#00c5e0] hover:to-[#00a3b8] text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           {isSaving ? 'Saving...' : 'Save Changes'}
@@ -209,7 +209,7 @@ export default function JudgingCriteriaSection() {
         <section className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-white font-sans">Age Divisions</h3>
-            <button onClick={addAgeDivision} className="flex items-center gap-1 text-[10px] text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-2 py-1 rounded">
+            <button onClick={addAgeDivision} className="flex items-center gap-1 text-[10px] text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-2 py-1 rounded">
               <Plus className="w-3 h-3" /> Add Division
             </button>
           </div>
@@ -236,7 +236,7 @@ export default function JudgingCriteriaSection() {
         <section className="space-y-4">
           <div className="flex items-center justify-between">
              <h3 className="text-lg font-bold text-white font-sans">Scoring Categories</h3>
-             <button onClick={addCategory} className="flex items-center gap-1 text-sm text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-3 py-1.5 rounded-lg">
+             <button onClick={addCategory} className="flex items-center gap-1 text-sm text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-3 py-1.5 rounded-lg">
                 <Plus className="w-4 h-4" /> Add Category
              </button>
           </div>
@@ -249,7 +249,7 @@ export default function JudgingCriteriaSection() {
                   className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#00B4CC]/20 text-[#00B4CC] flex flex-col items-center justify-center font-bold font-sans text-xs">
+                    <div className="w-10 h-10 rounded-xl bg-myf-teal/20 text-myf-teal flex flex-col items-center justify-center font-bold font-sans text-xs">
                       {cat.weight}
                     </div>
                     <span className="font-bold text-white font-sans uppercase tracking-wide">{cat.title}</span>
@@ -285,7 +285,7 @@ export default function JudgingCriteriaSection() {
                     <div className="bg-white/5 rounded-xl p-4 border border-white/5 space-y-4">
                       <div className="flex items-center justify-between">
                          <h4 className="text-sm font-bold text-white font-sans">Specific Evaluation Criteria</h4>
-                         <button onClick={() => addBullet(catIdx)} className="flex items-center gap-1 text-[10px] text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-2 py-1 rounded">
+                         <button onClick={() => addBullet(catIdx)} className="flex items-center gap-1 text-[10px] text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-2 py-1 rounded">
                             <Plus className="w-3 h-3" /> Add Bullet
                          </button>
                       </div>

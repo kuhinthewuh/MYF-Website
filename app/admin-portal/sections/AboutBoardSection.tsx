@@ -60,7 +60,7 @@ const renderAlignToggle = (current: 'left' | 'center' | 'right' = 'left', onChan
           key={align}
           onClick={(e) => { e.preventDefault(); onChange(align); }}
           title={`Align ${align}`}
-          className={`p-1.5 rounded-md transition-colors ${current === align ? 'bg-[#00B4CC] text-white' : 'text-white/40 hover:text-white hover:bg-white/10'}`}
+          className={`p-1.5 rounded-md transition-colors ${current === align ? 'bg-myf-teal text-white' : 'text-white/40 hover:text-white hover:bg-white/10'}`}
         >
           <Icon className="w-4 h-4" />
         </button>
@@ -207,7 +207,7 @@ export default function AboutBoardSection() {
     setState(prev => ({ ...prev, programDirectors: prev.programDirectors.filter(d => d.id !== id) }));
   }
 
-  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
+  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
@@ -220,7 +220,7 @@ export default function AboutBoardSection() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00B4CC] to-[#0092a6] hover:from-[#00c5e0] hover:to-[#00a3b8] text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           {isSaving ? 'Saving...' : 'Save Changes'}
@@ -250,7 +250,7 @@ export default function AboutBoardSection() {
               <textarea 
                 value={state.heroText}
                 onChange={e => setState({ ...state, heroText: e.target.value })}
-                className={`${inputClass} min-h-[80px] resize-y`}
+                className={`${inputClass} ${state.heroAlign === 'center' ? 'text-center' : state.heroAlign === 'right' ? 'text-right' : 'text-left'} min-h-[80px] resize-y`}
               />
             </div>
           </div>
@@ -260,7 +260,7 @@ export default function AboutBoardSection() {
         <section className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-6">
           <div className="flex items-center justify-between">
              <h3 className="text-lg font-bold text-white font-sans">Executive Officers</h3>
-             <button onClick={addOfficer} className="flex items-center gap-1 text-sm text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-3 py-1.5 rounded-lg">
+             <button onClick={addOfficer} className="flex items-center gap-1 text-sm text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-3 py-1.5 rounded-lg">
                 <Plus className="w-4 h-4" /> Add Officer
              </button>
           </div>
@@ -281,7 +281,7 @@ export default function AboutBoardSection() {
                        </button>
                      </div>
                    ) : (
-                     <label className="relative aspect-[3/4] rounded-lg border-2 border-dashed border-white/20 hover:border-[#00B4CC]/50 hover:bg-[#00B4CC]/5 cursor-pointer flex flex-col items-center justify-center transition-all">
+                     <label className="relative aspect-[3/4] rounded-lg border-2 border-dashed border-white/20 hover:border-myf-teal/50 hover:bg-myf-teal/5 cursor-pointer flex flex-col items-center justify-center transition-all">
                        <input type="file" accept="image/*" onChange={(e) => handleUpload(e, officer.id, 'officers')} className="hidden" disabled={uploadingId === officer.id} />
                        <ImageIcon className="w-6 h-6 text-white/40 mb-2" />
                        <span className="text-xs font-medium text-white/40 font-sans">
@@ -317,7 +317,7 @@ export default function AboutBoardSection() {
                   className={inputClass}
                 />
              </div>
-             <button onClick={addBoardMember} className="flex items-center gap-1 text-sm text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-3 py-1.5 rounded-lg mt-5">
+             <button onClick={addBoardMember} className="flex items-center gap-1 text-sm text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-3 py-1.5 rounded-lg mt-5">
                 <Plus className="w-4 h-4" /> Add Board Member
              </button>
           </div>
@@ -338,7 +338,7 @@ export default function AboutBoardSection() {
                        </button>
                      </div>
                    ) : (
-                     <label className="relative aspect-[4/3] rounded-lg border-2 border-dashed border-white/20 hover:border-[#00B4CC]/50 hover:bg-[#00B4CC]/5 cursor-pointer flex flex-col items-center justify-center transition-all">
+                     <label className="relative aspect-[4/3] rounded-lg border-2 border-dashed border-white/20 hover:border-myf-teal/50 hover:bg-myf-teal/5 cursor-pointer flex flex-col items-center justify-center transition-all">
                        <input type="file" accept="image/*" onChange={(e) => handleUpload(e, member.id, 'boardMembers')} className="hidden" disabled={uploadingId === member.id} />
                        <ImageIcon className="w-5 h-5 text-white/40 mb-1" />
                        <span className="text-[10px] font-medium text-white/40 font-sans">
@@ -368,7 +368,7 @@ export default function AboutBoardSection() {
                   className={inputClass}
                 />
              </div>
-             <button onClick={addDirector} className="flex items-center gap-1 text-sm text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-3 py-1.5 rounded-lg mt-5">
+             <button onClick={addDirector} className="flex items-center gap-1 text-sm text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-3 py-1.5 rounded-lg mt-5">
                 <Plus className="w-4 h-4" /> Add Program Director
              </button>
           </div>
@@ -389,7 +389,7 @@ export default function AboutBoardSection() {
                        </button>
                      </div>
                    ) : (
-                     <label className="relative aspect-[3/4] rounded-lg border-2 border-dashed border-white/20 hover:border-[#00B4CC]/50 hover:bg-[#00B4CC]/5 cursor-pointer flex flex-col items-center justify-center transition-all">
+                     <label className="relative aspect-[3/4] rounded-lg border-2 border-dashed border-white/20 hover:border-myf-teal/50 hover:bg-myf-teal/5 cursor-pointer flex flex-col items-center justify-center transition-all">
                        <input type="file" accept="image/*" onChange={(e) => handleUpload(e, director.id, 'programDirectors')} className="hidden" disabled={uploadingId === director.id} />
                        <ImageIcon className="w-6 h-6 text-white/40 mb-2" />
                        <span className="text-xs font-medium text-white/40 font-sans">
@@ -412,7 +412,7 @@ export default function AboutBoardSection() {
                          <label className="block text-[10px] uppercase tracking-wider text-white/50 font-sans">Description (Supports links [text](url))</label>
                          {renderAlignToggle(director.align || 'left', (val) => updateDirector(director.id, 'align', val as string))}
                        </div>
-                       <textarea value={director.description} onChange={e => updateDirector(director.id, 'description', e.target.value)} className={`${inputClass} min-h-[80px] resize-y`} placeholder="Description..." />
+                       <textarea value={director.description} onChange={e => updateDirector(director.id, 'description', e.target.value)} className={`${inputClass} ${director.align === 'center' ? 'text-center' : director.align === 'right' ? 'text-right' : 'text-left'} min-h-[80px] resize-y`} placeholder="Description..." />
                      </div>
                    </div>
                 </div>

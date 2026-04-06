@@ -47,7 +47,7 @@ function EventWidget({
   return (
     <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-5">
       <div className="flex items-center gap-3">
-        <div className="w-2 h-8 bg-gradient-to-b from-[#00B4CC] to-[#C8962E] rounded-full" />
+        <div className="w-2 h-8 bg-gradient-to-b from-myf-teal to-myf-gold rounded-full" />
         <h3 className="text-lg font-bold text-white font-sans">{title}</h3>
       </div>
 
@@ -63,7 +63,7 @@ function EventWidget({
             value={state.headerText}
             onChange={(e) => onChange(widgetKey, 'headerText', e.target.value)}
             placeholder="e.g. Current Events"
-            className="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl pl-10 pr-4 py-3 text-sm font-sans focus:outline-none focus:border-[#00B4CC]/50 transition-all"
+            className="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl pl-10 pr-4 py-3 text-sm font-sans focus:outline-none focus:border-myf-teal/50 transition-all"
           />
         </div>
       </div>
@@ -101,7 +101,7 @@ function EventWidget({
             }}
             maxLength={7}
             placeholder="#1E3354"
-            className="w-36 bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl px-3 py-3 text-sm font-mono focus:outline-none focus:border-[#00B4CC]/50 transition-all"
+            className="w-36 bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl px-3 py-3 text-sm font-mono focus:outline-none focus:border-myf-teal/50 transition-all"
           />
           {/* Live preview */}
           <span
@@ -166,7 +166,7 @@ function EventWidget({
             value={state.registrationLink}
             onChange={(e) => onChange(widgetKey, 'registrationLink', e.target.value)}
             placeholder="https://forms.google.com/..."
-            className="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl pl-10 pr-4 py-3 text-sm font-sans focus:outline-none focus:border-[#00B4CC]/50 transition-all"
+            className="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl pl-10 pr-4 py-3 text-sm font-sans focus:outline-none focus:border-myf-teal/50 transition-all"
           />
         </div>
       </div>
@@ -175,7 +175,7 @@ function EventWidget({
       <button
         onClick={() => onSave(widgetKey)}
         disabled={saving === widgetKey || uploading === widgetKey}
-        className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#00B4CC] to-[#0090a8] hover:from-[#00c4de] hover:to-[#00a0bc] disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold rounded-xl text-sm font-sans transition-all hover:-translate-y-0.5"
+        className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold rounded-xl text-sm font-sans transition-all hover:-translate-y-0.5"
       >
         {saving === widgetKey ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
         {saving === widgetKey ? 'Saving...' : 'Save Changes'}

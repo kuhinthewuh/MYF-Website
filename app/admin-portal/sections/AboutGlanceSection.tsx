@@ -43,7 +43,7 @@ const renderAlignToggle = (current: 'left' | 'center' | 'right' = 'left', onChan
           key={align}
           onClick={(e) => { e.preventDefault(); onChange(align); }}
           title={`Align ${align}`}
-          className={`p-1.5 rounded-md transition-colors ${current === align ? 'bg-[#00B4CC] text-white' : 'text-white/40 hover:text-white hover:bg-white/10'}`}
+          className={`p-1.5 rounded-md transition-colors ${current === align ? 'bg-myf-teal text-white' : 'text-white/40 hover:text-white hover:bg-white/10'}`}
         >
           <Icon className="w-4 h-4" />
         </button>
@@ -178,7 +178,7 @@ export default function AboutGlanceSection() {
   }
 
   // Helper for input styles
-  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans";
+  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -191,7 +191,7 @@ export default function AboutGlanceSection() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00B4CC] to-[#0092a6] hover:from-[#00c5e0] hover:to-[#00a3b8] text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           {isSaving ? 'Saving...' : 'Save Changes'}
@@ -202,7 +202,7 @@ export default function AboutGlanceSection() {
         {/* CAROUSEL IMAGES */}
         <section className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
           <h3 className="text-lg font-bold text-white font-sans flex items-center gap-2">
-            <ImageIcon className="w-5 h-5 text-[#00B4CC]" />
+            <ImageIcon className="w-5 h-5 text-myf-teal" />
             Hero Carousel Images
           </h3>
           
@@ -219,7 +219,7 @@ export default function AboutGlanceSection() {
               </div>
             ))}
             
-            <label className="relative aspect-video rounded-xl border-2 border-dashed border-white/20 hover:border-[#00B4CC]/50 hover:bg-[#00B4CC]/5 cursor-pointer flex flex-col items-center justify-center transition-all">
+            <label className="relative aspect-video rounded-xl border-2 border-dashed border-white/20 hover:border-myf-teal/50 hover:bg-myf-teal/5 cursor-pointer flex flex-col items-center justify-center transition-all">
               <input type="file" accept="image/*" onChange={uploadImage} className="hidden" disabled={isUploading} />
               <Plus className="w-8 h-8 text-white/40 mb-2" />
               <span className="text-sm font-medium text-white/40 font-sans">
@@ -264,7 +264,7 @@ export default function AboutGlanceSection() {
               <textarea 
                 value={state.beliefsText}
                 onChange={e => setState({ ...state, beliefsText: e.target.value })}
-                className={`${inputClass} min-h-[100px] resize-y`}
+                className={`${inputClass} ${state.beliefsAlign === 'center' ? 'text-center' : state.beliefsAlign === 'right' ? 'text-right' : 'text-left'} min-h-[100px] resize-y`}
               />
             </div>
           </div>
@@ -290,7 +290,7 @@ export default function AboutGlanceSection() {
               <textarea 
                 value={state.missionText}
                 onChange={e => setState({ ...state, missionText: e.target.value })}
-                className={`${inputClass} min-h-[120px] resize-y`}
+                className={`${inputClass} ${state.missionAlign === 'center' ? 'text-center' : state.missionAlign === 'right' ? 'text-right' : 'text-left'} min-h-[120px] resize-y`}
               />
             </div>
             <div className="md:col-span-2">
@@ -303,7 +303,7 @@ export default function AboutGlanceSection() {
                    </button>
                 </div>
               ) : (
-                <label className="relative aspect-video max-w-sm rounded-xl border-2 border-dashed border-white/20 hover:border-[#00B4CC]/50 hover:bg-[#00B4CC]/5 cursor-pointer flex flex-col items-center justify-center transition-all">
+                <label className="relative aspect-video max-w-sm rounded-xl border-2 border-dashed border-white/20 hover:border-myf-teal/50 hover:bg-myf-teal/5 cursor-pointer flex flex-col items-center justify-center transition-all">
                   <input type="file" accept="image/*" onChange={uploadMissionImage} className="hidden" disabled={isUploading} />
                   <ImageIcon className="w-8 h-8 text-white/40 mb-2" />
                   <span className="text-sm font-medium text-white/40 font-sans">
@@ -352,7 +352,7 @@ export default function AboutGlanceSection() {
                   <textarea 
                     value={prog.description}
                     onChange={e => updateProgram(idx, 'description', e.target.value)}
-                    className={`${inputClass} min-h-[100px] resize-y`}
+                    className={`${inputClass} ${prog.align === 'center' ? 'text-center' : prog.align === 'right' ? 'text-right' : 'text-left'} min-h-[100px] resize-y`}
                   />
                 </div>
                 <div className="md:col-span-2">
@@ -377,7 +377,7 @@ export default function AboutGlanceSection() {
                          newPrograms[idx].customLinks = [...(newPrograms[idx].customLinks || []), { displayText: 'New Link', url: '#' }];
                          setState(prev => ({ ...prev, programs: newPrograms }));
                        }}
-                       className="text-xs flex items-center gap-1 text-[#00B4CC] hover:text-white transition-colors"
+                       className="text-xs flex items-center gap-1 text-myf-teal hover:text-white transition-colors"
                      >
                         <Plus className="w-3 h-3" /> Add Link
                      </button>

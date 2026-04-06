@@ -126,8 +126,8 @@ export default function ContactAlumniSection() {
   }
 
 
-  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
-  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
+  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
+  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
@@ -140,7 +140,7 @@ export default function ContactAlumniSection() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00B4CC] to-[#0092a6] hover:from-[#00c5e0] hover:to-[#00a3b8] text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           {isSaving ? 'Saving...' : 'Save Changes'}
@@ -177,7 +177,7 @@ export default function ContactAlumniSection() {
            <section className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4 relative overflow-hidden flex flex-col justify-center">
              
              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-[#00B4CC]/20 text-[#00B4CC] rounded-xl flex items-center justify-center">
+                <div className="p-2 bg-myf-teal/20 text-myf-teal rounded-xl flex items-center justify-center">
                    <LinkIcon className="w-5 h-5" />
                 </div>
                 <div>
@@ -232,7 +232,7 @@ export default function ContactAlumniSection() {
                  <button 
                    onClick={() => fileInputRef.current?.click()}
                    disabled={isUploading}
-                   className="flex items-center gap-2 text-sm text-white font-semibold transition-colors bg-[#00B4CC] hover:bg-[#00c5e0] px-4 py-2.5 rounded-xl shadow-lg disabled:opacity-50"
+                   className="flex items-center gap-2 text-sm text-white font-semibold transition-colors bg-myf-teal hover:bg-myf-teal px-4 py-2.5 rounded-xl shadow-lg disabled:opacity-50"
                  >
                     {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
                     {isUploading ? 'Uploading...' : 'Upload Photo'}

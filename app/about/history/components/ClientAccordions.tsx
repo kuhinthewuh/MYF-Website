@@ -26,7 +26,7 @@ export default function ClientAccordions({ categories }: { categories: CategoryS
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" style={{ overflowAnchor: 'none' }}>
       {categories.map((cat, idx) => {
         const isOpen = openIndex === idx;
         const style = COLOR_STYLES[cat.accentColor] || COLOR_STYLES.blue;

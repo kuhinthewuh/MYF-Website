@@ -37,8 +37,8 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-[#0a0f1a] flex items-center justify-center p-4 relative overflow-hidden">
       {/* Ambient glow effects */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00B4CC]/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#C8962E]/8 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-myf-teal/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-myf-gold/8 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#E8734A]/5 rounded-full blur-3xl pointer-events-none" />
 
       {/* Login Card */}
@@ -48,7 +48,7 @@ export default function AdminLoginPage() {
           
           {/* Logo / Brand Area */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-16 h-16 bg-gradient-to-br from-[#00B4CC] via-[#C8962E] to-[#E8734A] rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+            <div className="w-16 h-16 bg-gradient-to-br from-myf-teal via-[#C8962E] to-[#E8734A] rounded-2xl flex items-center justify-center mb-4 shadow-lg">
               <Star className="w-8 h-8 text-white fill-white/30" />
             </div>
             <h1 className="text-2xl font-bold text-white tracking-tight font-sans">
@@ -82,7 +82,7 @@ export default function AdminLoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="director@myfocused.org"
-                  className="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl pl-11 pr-4 py-3.5 text-sm font-sans focus:outline-none focus:border-[#00B4CC]/50 focus:bg-white/8 transition-all"
+                  className="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl pl-11 pr-4 py-3.5 text-sm font-sans focus:outline-none focus:border-myf-teal/50 focus:bg-white/8 transition-all"
                 />
               </div>
             </div>
@@ -100,7 +100,7 @@ export default function AdminLoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="••••••••"
-                  className="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl pl-11 pr-12 py-3.5 text-sm font-sans focus:outline-none focus:border-[#00B4CC]/50 focus:bg-white/8 transition-all"
+                  className="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl pl-11 pr-12 py-3.5 text-sm font-sans focus:outline-none focus:border-myf-teal/50 focus:bg-white/8 transition-all"
                 />
                 <button
                   type="button"
@@ -116,7 +116,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-[#00B4CC] to-[#0090a8] hover:from-[#00c4de] hover:to-[#00a0bc] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl font-sans transition-all duration-300 shadow-lg hover:shadow-[#00B4CC]/20 hover:-translate-y-0.5 flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl font-sans transition-all duration-300 shadow-lg hover:shadow-myf-teal/20 hover:-translate-y-0.5 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>

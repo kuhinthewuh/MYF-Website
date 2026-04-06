@@ -94,8 +94,8 @@ export default function DonateSection() {
   }
 
 
-  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
-  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
+  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
+  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
@@ -108,7 +108,7 @@ export default function DonateSection() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00B4CC] to-[#0092a6] hover:from-[#00c5e0] hover:to-[#00a3b8] text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           {isSaving ? 'Saving...' : 'Save Changes'}
@@ -142,12 +142,12 @@ export default function DonateSection() {
              </div>
            </section>
 
-           <section className="bg-white/5 border border-[#00B4CC]/30 rounded-2xl p-6 space-y-4 relative overflow-hidden">
+           <section className="bg-white/5 border border-myf-teal/30 rounded-2xl p-6 space-y-4 relative overflow-hidden">
              
-             <div className="absolute top-0 right-0 w-32 h-32 bg-[#00B4CC]/10 blur-3xl rounded-full" />
+             <div className="absolute top-0 right-0 w-32 h-32 bg-myf-teal/10 blur-3xl rounded-full" />
 
              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-[#00B4CC]/20 text-[#00B4CC] rounded-xl">
+                <div className="p-2 bg-myf-teal/20 text-myf-teal rounded-xl">
                    <LinkIcon className="w-5 h-5" />
                 </div>
                 <div>
@@ -174,7 +174,7 @@ export default function DonateSection() {
            <section className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
               <div className="flex items-center justify-between">
                  <h3 className="text-lg font-bold text-white font-sans">Impact Stats</h3>
-                 <button onClick={addStat} className="flex items-center gap-1 text-[10px] text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-2 py-1.5 rounded-lg border border-[#00B4CC]/20">
+                 <button onClick={addStat} className="flex items-center gap-1 text-[10px] text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-2 py-1.5 rounded-lg border border-myf-teal/20">
                     <Plus className="w-3 h-3" /> Add Stat
                  </button>
               </div>

@@ -138,14 +138,14 @@ export default function ProgramsSection() {
                 value={links[key]}
                 onChange={(e) => setLinks((prev) => ({ ...prev, [key]: e.target.value }))}
                 placeholder={placeholder}
-                className="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl pl-10 pr-4 py-3 text-sm font-sans focus:outline-none focus:border-[#00B4CC]/50 transition-all"
+                className="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl pl-10 pr-4 py-3 text-sm font-sans focus:outline-none focus:border-myf-teal/50 transition-all"
               />
             </div>
 
             <button
               onClick={() => handleSave(key)}
               disabled={saving === key}
-              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#00B4CC] to-[#0090a8] hover:from-[#00c4de] hover:to-[#00a0bc] disabled:opacity-40 text-white font-bold rounded-xl text-sm font-sans transition-all hover:-translate-y-0.5"
+              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep disabled:opacity-40 text-white font-bold rounded-xl text-sm font-sans transition-all hover:-translate-y-0.5"
             >
               {saving === key ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
               {saving === key ? 'Saving...' : 'Save Changes'}

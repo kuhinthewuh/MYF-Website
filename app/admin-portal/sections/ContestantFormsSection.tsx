@@ -139,8 +139,8 @@ export default function ContestantFormsSection() {
     setState(prev => ({ ...prev, steps: newSteps }));
   }
 
-  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
-  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-xs";
+  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
+  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-xs";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
@@ -153,7 +153,7 @@ export default function ContestantFormsSection() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00B4CC] to-[#0092a6] hover:from-[#00c5e0] hover:to-[#00a3b8] text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           {isSaving ? 'Saving...' : 'Save Changes'}
@@ -175,7 +175,7 @@ export default function ContestantFormsSection() {
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-white font-sans">Stepper Timeline</h3>
-            <button onClick={addStep} className="flex items-center gap-1 text-sm text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-3 py-1.5 rounded-lg">
+            <button onClick={addStep} className="flex items-center gap-1 text-sm text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-3 py-1.5 rounded-lg">
                <Plus className="w-4 h-4" /> Add Step Segment
             </button>
           </div>
@@ -189,7 +189,7 @@ export default function ContestantFormsSection() {
                   className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors pr-12"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 rounded-full bg-[#00B4CC]/20 text-[#00B4CC] flex items-center justify-center font-bold font-sans shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-myf-teal/20 text-myf-teal flex items-center justify-center font-bold font-sans shrink-0">
                       {sIdx + 1}
                     </div>
                     <span className="font-bold text-white font-sans text-left truncate">
@@ -211,14 +211,14 @@ export default function ContestantFormsSection() {
                     
                     <div className="flex items-center justify-between">
                        <h4 className="text-sm font-bold text-white/60 uppercase tracking-widest font-sans">Nodes in this Step</h4>
-                       <button onClick={() => addNode(sIdx)} className="flex items-center gap-1 text-[10px] text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-2 py-1 rounded">
+                       <button onClick={() => addNode(sIdx)} className="flex items-center gap-1 text-[10px] text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-2 py-1 rounded">
                           <Plus className="w-3 h-3" /> Add Node
                        </button>
                     </div>
 
-                    <div className="grid gap-6 md:grid-cols-2">
+                    <div className="grid gap-6 grid-cols-1">
                        {step.nodes && step.nodes.map((node, nIdx) => (
-                          <div key={nIdx} className="bg-white/5 border border-[#00B4CC]/20 rounded-xl p-4 space-y-4 relative">
+                          <div key={nIdx} className="bg-white/5 border border-myf-teal/20 rounded-xl p-4 space-y-4 relative">
                              <button onClick={() => removeNode(sIdx, nIdx)} className="absolute top-2 right-2 text-white/30 hover:text-red-400 transition-colors"><Trash2 className="w-4 h-4" /></button>
                              <div>
                                <label className="block text-[10px] uppercase font-bold text-white/50 mb-1 font-sans">Node Title</label>
@@ -233,7 +233,7 @@ export default function ContestantFormsSection() {
                              <div className="bg-black/20 rounded-xl p-3 border border-white/5 space-y-4">
                                <div className="flex items-center justify-between">
                                   <h5 className="text-[11px] font-bold text-white/70 font-sans">Action Buttons</h5>
-                                  <button onClick={() => addButton(sIdx, nIdx)} className="flex items-center gap-1 text-[10px] text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-2 py-1 rounded">
+                                  <button onClick={() => addButton(sIdx, nIdx)} className="flex items-center gap-1 text-[10px] text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-2 py-1 rounded">
                                      <Plus className="w-3 h-3" /> Add Btn
                                   </button>
                                </div>

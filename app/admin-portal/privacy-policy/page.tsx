@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Save, Loader2, Link as LinkIcon } from 'lucide-react';
 import AdminSidebar from '../components/AdminSidebar';
+import Link from 'next/link';
 
 export default function AdminPrivacyPolicy() {
   const [content, setContent] = useState('');
@@ -54,7 +55,7 @@ export default function AdminPrivacyPolicy() {
       <div className="flex bg-[#0d1117] h-screen overflow-hidden text-white">
         <AdminSidebar activeSection={"privacy-policy" as any} />
         <main className="flex-1 overflow-y-auto flex items-center justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-[#00B4CC]" />
+          <Loader2 className="w-8 h-8 animate-spin text-myf-teal" />
         </main>
       </div>
     );
@@ -82,18 +83,18 @@ export default function AdminPrivacyPolicy() {
               </div>
         
         <div className="flex gap-3">
-          <a
+          <Link
             href="/privacy-policy"
             target="_blank"
             className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 bg-white rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors shadow-sm text-myf-charcoal"
           >
             <LinkIcon className="w-4 h-4" />
             View Public Page
-          </a>
+          </Link>
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#00B4CC] hover:bg-[#0092a6] text-white text-sm font-bold rounded-xl shadow-md transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-5 py-2.5 bg-myf-teal hover:bg-myf-tealDeep text-white text-sm font-bold rounded-xl shadow-md transition-all disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             {isSaving ? 'Saving...' : 'Save Changes'}
@@ -115,7 +116,7 @@ export default function AdminPrivacyPolicy() {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           rows={25}
-          className="w-full p-4 border border-white/10 rounded-xl bg-[#0d1117] text-gray-300 focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] outline-none transition-all resize-y font-mono text-sm leading-relaxed"
+          className="w-full p-4 border border-white/10 rounded-xl bg-[#0d1117] text-gray-300 focus:border-myf-teal focus:ring-1 focus:ring-myf-teal outline-none transition-all resize-y font-mono text-sm leading-relaxed"
           placeholder="<h1>Privacy Policy</h1>&#10;<p>Your text here...</p>"
         />
         <p className="text-xs text-gray-500 mt-3 flex items-center gap-1.5">

@@ -118,7 +118,7 @@ export default function GallerySection() {
         <button
           onClick={() => fileInputRef.current?.click()}
           disabled={uploading}
-          className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-[#00B4CC] to-[#0090a8] hover:from-[#00c4de] hover:to-[#00a0bc] disabled:opacity-40 text-white font-bold rounded-xl text-sm font-sans transition-all hover:-translate-y-0.5"
+          className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep disabled:opacity-40 text-white font-bold rounded-xl text-sm font-sans transition-all hover:-translate-y-0.5"
         >
           {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
           {uploading ? 'Uploading...' : 'Add Image'}
@@ -136,9 +136,9 @@ export default function GallerySection() {
       {images.length === 0 ? (
         <div
           onClick={() => fileInputRef.current?.click()}
-          className="border-2 border-dashed border-white/20 hover:border-[#00B4CC]/40 rounded-2xl p-16 flex flex-col items-center gap-3 cursor-pointer transition-all group"
+          className="border-2 border-dashed border-white/20 hover:border-myf-teal/40 rounded-2xl p-16 flex flex-col items-center gap-3 cursor-pointer transition-all group"
         >
-          <ImageIcon className="w-12 h-12 text-white/20 group-hover:text-[#00B4CC]/40 transition-colors" />
+          <ImageIcon className="w-12 h-12 text-white/20 group-hover:text-myf-teal/40 transition-colors" />
           <p className="text-white/40 font-semibold font-sans">No gallery images yet. Click to add the first one.</p>
         </div>
       ) : (
@@ -164,13 +164,13 @@ export default function GallerySection() {
           {/* Add More Tile */}
           <div
             onClick={() => fileInputRef.current?.click()}
-            className="aspect-video border-2 border-dashed border-white/15 hover:border-[#00B4CC]/40 bg-white/3 hover:bg-[#00B4CC]/5 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer transition-all group"
+            className="aspect-video border-2 border-dashed border-white/15 hover:border-myf-teal/40 bg-white/3 hover:bg-myf-teal/5 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer transition-all group"
           >
             {uploading ? (
-              <Loader2 className="w-6 h-6 text-[#00B4CC] animate-spin" />
+              <Loader2 className="w-6 h-6 text-myf-teal animate-spin" />
             ) : (
               <>
-                <Upload className="w-5 h-5 text-white/20 group-hover:text-[#00B4CC]/50 transition-colors" />
+                <Upload className="w-5 h-5 text-white/20 group-hover:text-myf-teal/50 transition-colors" />
                 <p className="text-white/25 text-xs font-sans">Add More</p>
               </>
             )}

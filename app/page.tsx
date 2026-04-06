@@ -87,7 +87,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="bg-white rounded-[2rem] p-8 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-t-4 border-myf-teal flex flex-col items-center text-center h-full group"
+              className="bg-myf-surface rounded-[2rem] p-8 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-t-4 border-myf-teal flex flex-col items-center text-center h-full group"
             >
               <div className="w-20 h-20 bg-myf-teal/10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-myf-teal/20 transition-all duration-300">
                 <GraduationCap className="w-10 h-10 text-myf-tealDeep" />
@@ -95,7 +95,7 @@ export default function Home() {
               <h3 className="text-2xl font-heading font-bold text-myf-charcoal mb-4">Scholarship Competition Division</h3>
               <p className="font-sans text-sm font-bold mb-4 text-myf-charcoal uppercase tracking-wider">Open to boys &amp; girls ages 10-20<br /><span className="text-xs tracking-normal font-normal opacity-80">(as of June 1st)</span></p>
               <p className="text-myf-charcoal/80 mb-8 leading-relaxed flex-grow text-base px-2">Every participant earns a scholarship &amp; receives training in resume-writing, public speaking, interview and volunteer service.</p>
-              <a href={programLinks.scholarship} className="w-full bg-myf-charcoal text-white py-4 rounded-xl font-bold hover:bg-myf-teal transition-colors flex items-center justify-center gap-2 group/btn">
+              <a href={programLinks.scholarship} className="w-full bg-myf-charcoal text-myf-bg py-4 rounded-xl font-bold hover:bg-myf-teal hover:text-white transition-colors flex items-center justify-center gap-2 group/btn">
                 I&apos;m interested <ArrowUpRight className="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
               </a>
             </motion.div>
@@ -106,7 +106,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-white rounded-[2rem] p-8 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-t-4 border-myf-coral flex flex-col items-center text-center h-full group"
+              className="bg-myf-surface rounded-[2rem] p-8 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-t-4 border-myf-coral flex flex-col items-center text-center h-full group"
             >
               <div className="w-20 h-20 bg-myf-coral/10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-myf-coral/20 transition-all duration-300">
                 <HeartHandshake className="w-10 h-10 text-myf-coralDeep" />
@@ -114,7 +114,7 @@ export default function Home() {
               <h3 className="text-2xl font-heading font-bold text-myf-charcoal mb-4">Community Service</h3>
               <p className="text-myf-muted font-sans text-sm font-bold mb-4 text-myf-coral uppercase tracking-wider">Open to boys &amp; girls ages 9-21</p>
               <p className="text-myf-charcoal/80 mb-8 leading-relaxed flex-grow text-base px-2">The Student Service Team is a new program created in 2023 by our Community Service Division. You will have the opportunity to volunteer alongside other youth in our community at various events and assist numerous charitable causes.</p>
-              <a href={programLinks.communityService} className="w-full bg-myf-charcoal text-white py-4 rounded-xl font-bold hover:bg-myf-coral transition-colors flex items-center justify-center gap-2 group/btn">
+              <a href={programLinks.communityService} className="w-full bg-myf-charcoal text-myf-bg py-4 rounded-xl font-bold hover:bg-myf-coral hover:text-white transition-colors flex items-center justify-center gap-2 group/btn">
                 Join Here <ArrowUpRight className="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
               </a>
             </motion.div>
@@ -125,7 +125,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white rounded-[2rem] p-8 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-t-4 border-myf-gold flex flex-col items-center text-center h-full group"
+              className="bg-myf-surface rounded-[2rem] p-8 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-t-4 border-myf-gold flex flex-col items-center text-center h-full group"
             >
               <div className="w-20 h-20 bg-myf-gold/10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-myf-gold/20 transition-all duration-300">
                 <Star className="w-10 h-10 text-myf-goldDeep fill-myf-gold/50" />
@@ -133,7 +133,7 @@ export default function Home() {
               <h3 className="text-2xl font-heading font-bold text-myf-charcoal mb-4">Calling All Alumni</h3>
               <p className="text-myf-muted font-sans text-sm font-bold mb-4 text-myf-gold uppercase tracking-wider">Stay Connected</p>
               <p className="text-myf-charcoal/80 mb-8 leading-relaxed flex-grow text-base px-2">We want to reconnect and hear from you. Please take a few moments to complete our alumni survey below. Your feedback helps us enhance our programs and strengthen our community.</p>
-              <a href={programLinks.alumni} className="w-full bg-myf-charcoal text-white py-4 rounded-xl font-bold hover:bg-myf-gold transition-colors flex items-center justify-center gap-2 group/btn">
+              <a href={programLinks.alumni} className="w-full bg-myf-charcoal text-myf-bg py-4 rounded-xl font-bold hover:bg-myf-gold hover:text-white transition-colors flex items-center justify-center gap-2 group/btn">
                 Connect With Us <ArrowUpRight className="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
               </a>
             </motion.div>
@@ -143,7 +143,7 @@ export default function Home() {
 
 
       {/* Footer */}
-      <footer className="bg-myf-charcoal text-white py-20 px-6 relative z-30">
+      <footer className="bg-myf-dark-blue text-white py-20 px-6 relative z-30">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 opacity-80 text-sm font-sans">
           <p className="font-medium tracking-wide">&copy; {new Date().getFullYear()} Manteca Youth Focus. All rights reserved.</p>
           <div className="flex gap-8 font-medium">

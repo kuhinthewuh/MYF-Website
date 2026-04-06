@@ -26,7 +26,7 @@ export default async function GlobalFooter() {
   const data = await getFooterData();
 
   return (
-    <footer className="bg-[#0a0f1a] text-white pt-16 pb-8 border-t border-white/5 relative z-50">
+    <footer className="bg-myf-dark-blue text-white pt-16 pb-8 border-t border-white/5 relative z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
           
@@ -46,8 +46,8 @@ export default async function GlobalFooter() {
             <ul className="space-y-4">
               {data.quickLinks?.map((link: any, idx: number) => (
                 <li key={idx}>
-                  <Link href={link.url} className="text-white/50 hover:text-[#00B4CC] hover:translate-x-1 inline-block transition-all duration-300 text-sm font-medium">
-                    {link.label}
+                  <Link href={link.url} className="group inline-flex text-white/50 hover:text-myf-teal transition-colors duration-300 text-sm font-medium">
+                    <span className="transform transition-transform duration-300 group-hover:translate-x-1">{link.label}</span>
                   </Link>
                 </li>
               ))}
@@ -60,8 +60,8 @@ export default async function GlobalFooter() {
             <ul className="space-y-4">
               {data.socialLinks?.map((social: any, idx: number) => (
                 <li key={idx}>
-                  <a href={social.url} target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-[#00B4CC] hover:translate-x-1 inline-block transition-all duration-300 text-sm font-medium">
-                    {social.platform}
+                  <a href={social.url} target="_blank" rel="noopener noreferrer" className="group inline-flex text-white/50 hover:text-myf-teal transition-colors duration-300 text-sm font-medium">
+                    <span className="transform transition-transform duration-300 group-hover:translate-x-1">{social.platform}</span>
                   </a>
                 </li>
               ))}

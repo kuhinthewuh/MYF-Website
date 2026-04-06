@@ -18,17 +18,31 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { url_path } = body;
+    const { url_path, session_id } = body;
 
     if (!url_path) {
       return NextResponse.json({ error: 'Missing url_path' }, { status: 400 });
     }
+    
+    if (url_path.startsWith('/admin-portal')) {
+      return NextResponse.json({ success: true, ignored: true });
+    }
 
-    const { error } = await supabase
+    let { error } = await supabase
       .from('page_views')
       .insert([
-        { url_path, created_at: new Date().toISOString() }
+        { url_path, session_id, created_at: new Date().toISOString() }
       ]);
+
+    // Graceful fallback if the user hasn't added the session_id column yet
+    if (error && error.code === '42703') {
+      const { error: fallbackError } = await supabase
+        .from('page_views')
+        .insert([
+          { url_path, created_at: new Date().toISOString() }
+        ]);
+      error = fallbackError;
+    }
 
     // Fails silently if table doesn't exist yet to prevent console errors
     if (error) {

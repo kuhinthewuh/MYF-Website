@@ -3,9 +3,21 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --theme-bg: #F8FAFC;
+    --theme-surface: #FFFFFF;
+    --theme-primary: #2DD4BF;
+    --theme-primary-deep: #0F766E;
+    --theme-secondary: #FB7185;
+    --theme-secondary-deep: #E11D48;
+    --theme-accent: #FBBF24;
+    --theme-text-main: #1E293B;
+    --theme-text-muted: #64748B;
+  }
+
   body {
-    background-color: theme('colors.myf.bg');
-    color: theme('colors.myf.charcoal');
+    background-color: var(--theme-bg);
+    color: var(--theme-text-main);
   }
 }
 
@@ -19,14 +31,14 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: theme('colors.myf.teal');
+  background: var(--theme-primary);
   border-radius: 9999px;
-  border: 2px solid theme('colors.myf.bg');
+  border: 2px solid var(--theme-bg);
   transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: theme('colors.myf.tealDeep');
+  background: var(--theme-primary-deep);
   /* The glow cannot be applied via box-shadow on standard scrollbars cleanly in all browsers, 
      but changing the color provides a good hover state */
 }

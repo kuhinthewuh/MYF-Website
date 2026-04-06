@@ -17,11 +17,18 @@ export default function AnalyticsTracker() {
     if (lastTrackedPath.current === pathname) return;
     lastTrackedPath.current = pathname;
 
+    // Get or create session ID
+    let sessionId = localStorage.getItem('myf_session_id');
+    if (!sessionId) {
+      sessionId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2);
+      localStorage.setItem('myf_session_id', sessionId);
+    }
+
     // Fire tracking event
     fetch('/api/analytics/track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url_path: pathname }),
+      body: JSON.stringify({ url_path: pathname, session_id: sessionId }),
     }).catch(e => console.error("Failed to track:", e));
 
   }, [pathname]);

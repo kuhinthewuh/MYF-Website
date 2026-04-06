@@ -110,7 +110,7 @@ export default function ContestantSection() {
     }));
   }
 
-  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
+  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
@@ -123,7 +123,7 @@ export default function ContestantSection() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00B4CC] to-[#0092a6] hover:from-[#00c5e0] hover:to-[#00a3b8] text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           {isSaving ? 'Saving...' : 'Save Changes'}
@@ -151,7 +151,7 @@ export default function ContestantSection() {
               <div className="pt-4 border-t border-white/10">
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-xs font-medium text-white/70 font-sans">Benefits (Bulleted List)</label>
-                  <button onClick={addBenefit} className="flex items-center gap-1 text-[10px] text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-2 py-1 rounded">
+                  <button onClick={addBenefit} className="flex items-center gap-1 text-[10px] text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-2 py-1 rounded">
                     <Plus className="w-3 h-3" /> Add
                   </button>
                 </div>
@@ -190,7 +190,7 @@ export default function ContestantSection() {
                   </button>
                 </div>
               ) : (
-                <label className="relative aspect-[4/3] rounded-xl border-2 border-dashed border-white/20 hover:border-[#00B4CC]/50 hover:bg-[#00B4CC]/5 cursor-pointer flex flex-col items-center justify-center transition-all">
+                <label className="relative aspect-[4/3] rounded-xl border-2 border-dashed border-white/20 hover:border-myf-teal/50 hover:bg-myf-teal/5 cursor-pointer flex flex-col items-center justify-center transition-all">
                   <input type="file" accept="image/*" onChange={uploadImage} className="hidden" disabled={isUploading} />
                   <ImageIcon className="w-10 h-10 text-white/40 mb-3" />
                   <span className="text-sm font-medium text-white/40 font-sans">

@@ -12,19 +12,49 @@ export default async function AnalyticsDashboard() {
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
   
-  const { data: pageViews, error } = await supabase
+  let { data: pageViews, error } = await supabase
     .from('page_views')
-    .select('url_path, created_at')
+    .select('url_path, created_at, session_id')
     .gte('created_at', thirtyDaysAgo.toISOString())
     .order('created_at', { ascending: true });
 
-  const views = pageViews || [];
+  if (error && error.code === '42703') {
+    const fallback = await supabase
+      .from('page_views')
+      .select('url_path, created_at')
+      .gte('created_at', thirtyDaysAgo.toISOString())
+      .order('created_at', { ascending: true });
+    pageViews = fallback.data as any;
+    error = fallback.error;
+  }
 
-  // Metrics Calculation
-  const totalViews = views.length;
+  // Filter out any accidentally tracked admin-portal views
+  const views = (pageViews || []).filter(v => !v.url_path.startsWith('/admin-portal'));
+
+  // Metrics Calculation - Unique Visitors
+  const uniqueSessions = new Set<string>();
+  let validSessionsCount = 0;
+  
+  views.forEach(v => {
+    if (v.session_id) {
+       uniqueSessions.add(v.session_id);
+       validSessionsCount++;
+    }
+  });
+
+  const totalViews = uniqueSessions.size > 0 ? (uniqueSessions.size + (views.length - validSessionsCount)) : views.length;
   
   const today = new Date().toISOString().split('T')[0];
-  const trafficToday = views.filter(v => v.created_at.startsWith(today)).length;
+  const trafficTodayArray = views.filter(v => v.created_at.startsWith(today));
+  const todaySessions = new Set<string>();
+  let todayValid = 0;
+  trafficTodayArray.forEach(v => {
+    if (v.session_id) {
+       todaySessions.add(v.session_id);
+       todayValid++;
+    }
+  });
+  const trafficToday = todaySessions.size > 0 ? (todaySessions.size + (trafficTodayArray.length - todayValid)) : trafficTodayArray.length;
 
   const pageCounts: Record<string, number> = {};
   views.forEach(v => {
@@ -40,30 +70,49 @@ export default async function AnalyticsDashboard() {
     }
   });
 
+  const formatPathName = (path: string) => {
+    if (path === '/') return 'Home Page';
+    return path.split('/').filter(Boolean).map(segment => segment.charAt(0).toUpperCase() + segment.slice(1)).join(' > ') || path;
+  };
+  
+  const mostPopularDisplay = mostPopularPage !== 'N/A' ? formatPathName(mostPopularPage) : 'N/A';
+
   // Chart Data Processing
   // Create an array of the last 30 dates
   const chartDataMap: Record<string, number> = {};
+  const dailySessionsMap: Record<string, Set<string>> = {};
+  const dailyRawViewsMap: Record<string, number> = {};
+  
   for (let i = 29; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
     const dateStr = d.toISOString().split('T')[0];
-    const displayDate = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     chartDataMap[dateStr] = 0;
+    dailySessionsMap[dateStr] = new Set();
+    dailyRawViewsMap[dateStr] = 0;
   }
 
   // Fill in actual data
   views.forEach(v => {
     const dateStr = v.created_at.split('T')[0];
     if (chartDataMap[dateStr] !== undefined) {
-      chartDataMap[dateStr]++;
+      if (v.session_id) {
+         dailySessionsMap[dateStr].add(v.session_id);
+      } else {
+         dailyRawViewsMap[dateStr]++;
+      }
     }
   });
 
   const chartData = Object.keys(chartDataMap).map(dateStr => {
     const d = new Date(dateStr);
+    const dailyViews = dailySessionsMap[dateStr].size > 0 
+       ? dailySessionsMap[dateStr].size + dailyRawViewsMap[dateStr]
+       : dailyRawViewsMap[dateStr];
+       
     return {
       date: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-      views: chartDataMap[dateStr]
+      views: dailyViews
     };
   });
 
@@ -85,7 +134,7 @@ export default async function AnalyticsDashboard() {
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div>
               <h1 className="text-2xl font-bold font-heading text-white flex items-center gap-3">
-                <Activity className="w-6 h-6 text-[#00B4CC]" />
+                <Activity className="w-6 h-6 text-myf-teal" />
                 Native Analytics
               </h1>
               <p className="text-sm text-gray-400 mt-1">
@@ -121,7 +170,8 @@ export default async function AnalyticsDashboard() {
            </div>
            <div className="truncate">
              <p className="text-sm font-semibold text-gray-400 mb-1">Most Popular Page</p>
-             <h3 className="text-lg font-black text-gray-800 truncate" title={mostPopularPage}>{mostPopularPage}</h3>
+             <h3 className="text-lg font-black text-gray-800 truncate" title={mostPopularDisplay}>{mostPopularDisplay}</h3>
+             {mostPopularPage !== 'N/A' && mostPopularPage !== '/' && <p className="text-[10px] text-gray-400 mt-0.5 truncate">{mostPopularPage}</p>}
            </div>
         </div>
       </div>

@@ -11,16 +11,18 @@ const config: Config = {
       colors: {
         // Updated vibrant theme for MYF Redesign, preserving old colors for strict v1 widget rollback
         myf: {
-          teal: "#2DD4BF",      // Vibrant primary accent
-          tealDeep: "#0F766E",  // Darker teal for hover states
-          coral: "#FB7185",     // Energetic red/coral
-          coralDeep: "#E11D48", // Darker coral for hover states
-          gold: "#FBBF24",      // Premium gold accent
-          goldDeep: "#D97706",  // Darker gold for hover states
-          charcoal: "#1E293B",  // Deep grey/almost black for text and footer
-          muted: "#64748B",     // Secondary text color
-          bg: "#F8FAFC",        // Crisp, cool off-white background
-          white: "#FFFFFF",
+          teal: "rgb(var(--theme-primary-rgb) / <alpha-value>)",
+          tealDeep: "rgb(var(--theme-primary-deep-rgb) / <alpha-value>)",
+          coral: "rgb(var(--theme-secondary-rgb) / <alpha-value>)",
+          coralDeep: "rgb(var(--theme-secondary-deep-rgb) / <alpha-value>)",
+          gold: "rgb(var(--theme-accent-rgb) / <alpha-value>)",
+          goldDeep: "rgb(var(--theme-accent-rgb) / <alpha-value>)",
+          charcoal: "rgb(var(--theme-text-main-rgb) / <alpha-value>)",
+          muted: "rgb(var(--theme-text-muted-rgb) / <alpha-value>)",
+          bg: "rgb(var(--theme-bg-rgb) / <alpha-value>)",
+          white: "rgb(var(--theme-surface-rgb) / <alpha-value>)",
+          surface: "rgb(var(--theme-surface-rgb) / <alpha-value>)",
+          'dark-blue': "rgb(var(--theme-secondary-deep-rgb) / <alpha-value>)",
           // Old colors needed for v1 Current Events rollback
           blue: "#1CA0E3",
           deep: "#0B5C92",

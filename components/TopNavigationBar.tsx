@@ -81,7 +81,7 @@ export default function TopNavigationBar() {
   ];
 
   return (
-    <nav className="relative z-50 w-full bg-[#F8FAFC]/90 backdrop-blur-md border-b border-gray-200">
+    <nav className="relative z-50 w-full bg-myf-surface/90 backdrop-blur-md border-b border-black/5">
       {/* 
         TOP TIER: Logo & Socials 
       */}
@@ -92,19 +92,19 @@ export default function TopNavigationBar() {
           <div className="flex-shrink-0 flex items-center gap-3">
              {/* Note: Using synthetic logo to match screenshot style */}
              <div className="w-12 h-12 relative flex items-center justify-center">
-               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-[#FBBF24] fill-current">
+               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-myf-gold fill-current">
                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                </svg>
              </div>
              <div className="text-xl md:text-2xl font-sans text-myf-charcoal">
-               manteca<span className="text-[#1CA0E3] font-bold italic">youthfocus</span>
+               manteca<span className="text-myf-teal font-bold italic">youthfocus</span>
              </div>
           </div>
 
           {/* Social Icons (Desktop) & Mobile Hamburger */}
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-4 text-[#1CA0E3]">
-              <a href={LINKS.social.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-myf-deep transition-colors">
+            <div className="hidden md:flex items-center gap-4 text-myf-teal">
+              <a href={LINKS.social.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-myf-tealDeep transition-colors">
                 <Facebook className="w-8 h-8 fill-current" />
               </a>
               <a href={LINKS.social.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-myf-deep transition-colors">
@@ -128,7 +128,7 @@ export default function TopNavigationBar() {
       {/* 
         BOTTOM TIER: Desktop Navigation Links
       */}
-      <div className="hidden md:block bg-gray-50/50 border-t border-gray-100 py-3">
+      <div className="hidden md:block bg-myf-bg border-t border-black/5 py-3">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ul className="flex flex-wrap justify-center items-center gap-x-8 gap-y-2">
             {navItems.map((item, index) => (
@@ -164,7 +164,7 @@ export default function TopNavigationBar() {
                            animate={{ opacity: 1, y: 0 }}
                            exit={{ opacity: 0, y: 10 }}
                            transition={{ duration: 0.2, ease: "easeInOut" }}
-                           className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 py-2"
+                           className="absolute top-full left-0 mt-2 w-64 bg-myf-surface rounded-xl shadow-xl border border-black/5 overflow-hidden z-50 py-2"
                          >
                            {item.dropdown.map((dropItem, dIdx) => (
                              <a 
@@ -196,11 +196,11 @@ export default function TopNavigationBar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden overflow-hidden bg-white border-t border-gray-100"
+            className="md:hidden overflow-hidden bg-myf-surface border-t border-black/5"
           >
             <div className="px-4 py-4 space-y-2">
               {navItems.map((item, index) => (
-                <div key={index} className="border-b border-gray-50 pb-2">
+                <div key={index} className="border-b border-black/5 pb-2">
                   {item.href ? (
                     <a 
                       href={item.href}
@@ -246,7 +246,7 @@ export default function TopNavigationBar() {
               ))}
               
               {/* Mobile Socials */}
-              <div className="flex justify-center gap-6 pt-6 pb-4 text-[#1CA0E3]">
+              <div className="flex justify-center gap-6 pt-6 pb-4 text-myf-teal">
                  <a href={LINKS.social.facebook} target="_blank" rel="noopener noreferrer">
                    <Facebook className="w-8 h-8 fill-current" />
                  </a>

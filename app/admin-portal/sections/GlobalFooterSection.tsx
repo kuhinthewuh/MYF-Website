@@ -137,8 +137,8 @@ export default function GlobalFooterSection() {
     setState(prev => ({ ...prev, quickLinks: newLinks }));
   }
 
-  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
-  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
+  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
+  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
@@ -148,7 +148,7 @@ export default function GlobalFooterSection() {
           <h2 className="text-2xl font-bold text-white font-sans">Global Footer</h2>
           <p className="text-white/40 text-sm font-sans mt-1">Manage the bottom footer displayed on all public pages</p>
         </div>
-        <button onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00B4CC] to-[#0092a6] hover:from-[#00c5e0] hover:to-[#00a3b8] text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50">
+        <button onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50">
           <Save className="w-4 h-4" />
           {isSaving ? 'Saving...' : 'Save Changes'}
         </button>
@@ -175,14 +175,14 @@ export default function GlobalFooterSection() {
              <div>
                 <label className="block text-xs font-bold text-white/50 mb-2 font-sans uppercase">Footer Logo Override (Optional)</label>
                 {state.logoUrl ? (
-                  <div className="bg-[#0a0f1a]/50 border border-[#00B4CC]/20 rounded-xl p-4 flex flex-col items-center justify-center relative min-h-[160px]">
+                  <div className="bg-[#0a0f1a]/50 border border-myf-teal/20 rounded-xl p-4 flex flex-col items-center justify-center relative min-h-[160px]">
                      <img src={state.logoUrl} alt="Footer Logo" className="max-h-24 w-auto object-contain brightness-0 invert opacity-70" />
                      <button onClick={() => setState(prev => ({ ...prev, logoUrl: '' }))} className="absolute top-2 right-2 p-2 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all">
                         <Trash2 className="w-4 h-4" />
                      </button>
                   </div>
                 ) : (
-                  <label className="relative flex flex-col items-center justify-center p-8 border-2 border-dashed border-white/20 rounded-xl hover:border-[#00B4CC]/50 hover:bg-[#00B4CC]/5 cursor-pointer transition-all h-full min-h-[160px]">
+                  <label className="relative flex flex-col items-center justify-center p-8 border-2 border-dashed border-white/20 rounded-xl hover:border-myf-teal/50 hover:bg-myf-teal/5 cursor-pointer transition-all h-full min-h-[160px]">
                      <input type="file" accept="image/*" onChange={handleImageUpload} ref={fileInputRef} className="hidden" disabled={isUploading} />
                      <UploadCloud className="w-8 h-8 text-white/30 mb-2" />
                      <p className="text-sm font-semibold text-white/60 text-center">
@@ -199,7 +199,7 @@ export default function GlobalFooterSection() {
            <section className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
               <div className="flex items-center justify-between">
                  <h3 className="text-lg font-bold text-white font-sans">Quick Links</h3>
-                 <button onClick={addQuickLink} className="flex items-center gap-1 text-[10px] text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-2 py-1 rounded">
+                 <button onClick={addQuickLink} className="flex items-center gap-1 text-[10px] text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-2 py-1 rounded">
                     <Plus className="w-3 h-3" /> Add Link
                  </button>
               </div>
@@ -225,7 +225,7 @@ export default function GlobalFooterSection() {
            <section className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
               <div className="flex items-center justify-between">
                  <h3 className="text-lg font-bold text-white font-sans">Social Links</h3>
-                 <button onClick={addSocialLink} className="flex items-center gap-1 text-[10px] text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-2 py-1 rounded">
+                 <button onClick={addSocialLink} className="flex items-center gap-1 text-[10px] text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-2 py-1 rounded">
                     <Plus className="w-3 h-3" /> Add Social
                  </button>
               </div>

@@ -109,13 +109,13 @@ export default function HeroSection() {
       {/* Upload Zone */}
       <div
         onClick={() => fileInputRef.current?.click()}
-        className="border-2 border-dashed border-white/20 hover:border-[#00B4CC]/50 bg-white/3 hover:bg-[#00B4CC]/5 rounded-2xl p-12 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all group"
+        className="border-2 border-dashed border-white/20 hover:border-myf-teal/50 bg-white/3 hover:bg-myf-teal/5 rounded-2xl p-12 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all group"
       >
-        <div className="w-14 h-14 bg-white/5 group-hover:bg-[#00B4CC]/10 rounded-2xl flex items-center justify-center transition-all">
+        <div className="w-14 h-14 bg-white/5 group-hover:bg-myf-teal/10 rounded-2xl flex items-center justify-center transition-all">
           {uploading ? (
-            <Loader2 className="w-6 h-6 text-[#00B4CC] animate-spin" />
+            <Loader2 className="w-6 h-6 text-myf-teal animate-spin" />
           ) : (
-            <Upload className="w-6 h-6 text-white/30 group-hover:text-[#00B4CC] transition-colors" />
+            <Upload className="w-6 h-6 text-white/30 group-hover:text-myf-teal transition-colors" />
           )}
         </div>
         <div className="text-center">
@@ -135,7 +135,7 @@ export default function HeroSection() {
       <button
         onClick={handleSave}
         disabled={saving || uploading}
-        className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#00B4CC] to-[#0090a8] hover:from-[#00c4de] hover:to-[#00a0bc] disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold rounded-xl font-sans transition-all hover:-translate-y-0.5 shadow-lg hover:shadow-[#00B4CC]/30"
+        className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold rounded-xl font-sans transition-all hover:-translate-y-0.5 shadow-lg hover:shadow-myf-teal/30"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         {saving ? 'Publishing...' : 'Save Changes'}

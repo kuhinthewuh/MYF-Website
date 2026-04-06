@@ -1,0 +1,35 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    # Runs at 00:00 on every 3rd day-of-month
+    - cron: '0 0 */3 * *'
+  # Allows you to trigger this workflow manually from the GitHub Actions tab for testing
+  workflow_dispatch:
+
+jobs:
+  ping-database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        # =====================================================================
+        # IMPORTANT REMINDER:
+        # You must add SUPABASE_URL and SUPABASE_ANON_KEY to your GitHub Secrets
+        # Go to GitHub Repo -> Settings -> Secrets and variables -> Actions
+        # =====================================================================
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "Error: Supabase secrets are missing in GitHub repository settings!"
+            exit 1
+          fi
+          
+          # Direct REST API database ping. Bypasses NextJS entirely so this works 
+          # before your web app is even deployed/awake.
+          curl -sS -X GET "${SUPABASE_URL}/rest/v1/site_content?select=id&limit=1" \
+          -H "apikey: ${SUPABASE_ANON_KEY}" \
+          -H "Authorization: Bearer ${SUPABASE_ANON_KEY}"
+          
+          echo -e "\n\nDatabase successfully pinged."

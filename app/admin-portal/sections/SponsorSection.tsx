@@ -178,8 +178,8 @@ export default function SponsorSection() {
     setState(prev => ({ ...prev, tiers: newTiers }));
   }
 
-  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
-  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
+  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
+  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
@@ -192,7 +192,7 @@ export default function SponsorSection() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00B4CC] to-[#0092a6] hover:from-[#00c5e0] hover:to-[#00a3b8] text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           {isSaving ? 'Saving...' : 'Save Changes'}
@@ -220,14 +220,14 @@ export default function SponsorSection() {
              <div>
                <label className="block text-xs font-bold text-white/50 mb-2 font-sans uppercase">Sponsor Deck PDF (Optional)</label>
                {state.deckPdfUrl ? (
-                 <div className="bg-[#0a0f1a]/50 border border-[#00B4CC]/20 rounded-xl p-4 flex items-center justify-between">
+                 <div className="bg-[#0a0f1a]/50 border border-myf-teal/20 rounded-xl p-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                       <div className="p-2 bg-[#00B4CC]/10 text-[#00B4CC] rounded-lg">
+                       <div className="p-2 bg-myf-teal/10 text-myf-teal rounded-lg">
                           <FileText className="w-6 h-6" />
                        </div>
                        <div>
                           <h4 className="font-semibold text-white text-sm">Sponsorship Deck Uploaded</h4>
-                          <a href={state.deckPdfUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-[#00B4CC] hover:underline truncate block w-40">
+                          <a href={state.deckPdfUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-myf-teal hover:underline truncate block w-40">
                              View File
                           </a>
                        </div>
@@ -237,7 +237,7 @@ export default function SponsorSection() {
                     </button>
                  </div>
                ) : (
-                 <label className="relative flex flex-col items-center justify-center p-8 border-2 border-dashed border-white/20 rounded-xl hover:border-[#00B4CC]/50 hover:bg-[#00B4CC]/5 cursor-pointer transition-all h-full min-h-[160px]">
+                 <label className="relative flex flex-col items-center justify-center p-8 border-2 border-dashed border-white/20 rounded-xl hover:border-myf-teal/50 hover:bg-myf-teal/5 cursor-pointer transition-all h-full min-h-[160px]">
                     <input type="file" accept="application/pdf" onChange={uploadPdf} className="hidden" disabled={isUploading} />
                     <UploadCloud className="w-8 h-8 text-white/30 mb-2" />
                     <p className="text-sm font-semibold text-white/60 text-center">
@@ -253,21 +253,21 @@ export default function SponsorSection() {
         <section className="space-y-4">
           <div className="flex items-center justify-between">
              <h3 className="text-lg font-bold text-white font-sans">Sponsorship Tiers</h3>
-             <button onClick={addTier} className="flex items-center gap-1 text-sm text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-3 py-1.5 rounded-lg">
+             <button onClick={addTier} className="flex items-center gap-1 text-sm text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-3 py-1.5 rounded-lg">
                 <Plus className="w-4 h-4" /> Add Tier
              </button>
           </div>
           
           <div className="grid gap-4 lg:grid-cols-2 items-start">
             {state.tiers.map((tier, tIdx) => (
-              <div key={tIdx} className={`bg-white/5 border rounded-2xl overflow-hidden transition-colors ${tier.isPopular ? 'border-[#00B4CC]/50 shadow-[0_0_15px_rgba(0,180,204,0.1)]' : 'border-white/10'}`}>
+              <div key={tIdx} className={`bg-white/5 border rounded-2xl overflow-hidden transition-colors ${tier.isPopular ? 'border-myf-teal/50 shadow-myf-teal' : 'border-white/10'}`}>
                 <button 
                   onClick={() => setExpandedTier(expandedTier === tIdx ? null : tIdx)}
                   className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors text-left"
                 >
                   <div>
                      <span className="font-bold text-white font-sans text-lg block">{tier.name}</span>
-                     <span className="text-[#00B4CC] font-mono font-bold text-sm block">{tier.price}</span>
+                     <span className="text-myf-teal font-mono font-bold text-sm block">{tier.price}</span>
                   </div>
                   <ChevronDown className={`w-5 h-5 text-white/40 transition-transform ${expandedTier === tIdx ? 'rotate-180' : ''}`} />
                 </button>
@@ -281,7 +281,7 @@ export default function SponsorSection() {
                             type="checkbox" 
                             checked={tier.isPopular || false} 
                             onChange={(e) => updateTier(tIdx, 'isPopular', e.target.checked)}
-                            className="w-4 h-4 rounded text-[#00B4CC] bg-white/10 border-white/20 focus:ring-[#00B4CC] focus:ring-offset-gray-900"
+                            className="w-4 h-4 rounded text-myf-teal bg-white/10 border-white/20 focus:ring-myf-teal focus:ring-offset-gray-900"
                           />
                           <span className="text-sm text-white/70 font-semibold uppercase tracking-wider">Highlight as Popular</span>
                        </label>
@@ -310,7 +310,7 @@ export default function SponsorSection() {
                     <div className="bg-white/5 rounded-xl p-4 border border-white/5 space-y-4">
                       <div className="flex items-center justify-between">
                          <h4 className="text-sm font-bold text-white font-sans">Included Perks</h4>
-                         <button onClick={() => addPerk(tIdx)} className="flex items-center gap-1 text-[10px] text-[#00B4CC] hover:text-white transition-colors bg-[#00B4CC]/10 px-2 py-1 rounded">
+                         <button onClick={() => addPerk(tIdx)} className="flex items-center gap-1 text-[10px] text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-2 py-1 rounded">
                             <Plus className="w-3 h-3" /> Add Perk
                          </button>
                       </div>

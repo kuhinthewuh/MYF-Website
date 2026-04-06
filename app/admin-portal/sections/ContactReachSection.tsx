@@ -72,8 +72,8 @@ export default function ContactReachSection() {
     }
   }
 
-  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
-  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00B4CC] focus:ring-1 focus:ring-[#00B4CC] transition-all font-sans text-sm";
+  const inputClass = "w-full bg-[#161b22] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
+  const smallInputClass = "w-full bg-[#0a0f1a] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/20 focus:outline-none focus:border-myf-teal focus:ring-1 focus:ring-myf-teal transition-all font-sans text-sm";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
@@ -86,7 +86,7 @@ export default function ContactReachSection() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00B4CC] to-[#0092a6] hover:from-[#00c5e0] hover:to-[#00a3b8] text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-myf-teal to-myf-tealDeep hover:from-myf-teal hover:to-myf-tealDeep text-white rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           {isSaving ? 'Saving...' : 'Save Changes'}
@@ -120,9 +120,9 @@ export default function ContactReachSection() {
              </div>
            </section>
 
-           <section className="bg-white/5 border border-[#00B4CC]/30 rounded-2xl p-6 space-y-4 relative overflow-hidden">
+           <section className="bg-white/5 border border-myf-teal/30 rounded-2xl p-6 space-y-4 relative overflow-hidden">
              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-[#00B4CC]/20 text-[#00B4CC] rounded-xl">
+                <div className="p-2 bg-myf-teal/20 text-myf-teal rounded-xl">
                    <Map className="w-5 h-5" />
                 </div>
                 <div>
@@ -182,7 +182,7 @@ export default function ContactReachSection() {
 
            <section className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
               <div className="flex items-center gap-3">
-                 <Share2 className="w-5 h-5 text-[#00B4CC]" />
+                 <Share2 className="w-5 h-5 text-myf-teal" />
                  <h3 className="text-lg font-bold text-white font-sans">Social Links</h3>
               </div>
 

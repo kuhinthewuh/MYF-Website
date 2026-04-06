@@ -57,9 +57,9 @@ export default async function FormsPage() {
                 </div>
 
                 {/* Nodes Grid */}
-                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                <div className="flex-1 grid grid-cols-1 gap-6 w-full">
                   {step.nodes && step.nodes.map((node: any, nIdx: number) => (
-                    <div key={nIdx} className={`bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col ${step.nodes.length === 1 ? 'md:col-span-2' : ''}`}>
+                    <div key={nIdx} className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
                       <h3 className="text-2xl font-bold text-myf-charcoal mb-3 font-heading">
                         {node.title}
                       </h3>

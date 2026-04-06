@@ -23,6 +23,8 @@ import GlobalFooterSection from './sections/GlobalFooterSection';
 import { AdminSaveProvider, useAdminSave } from './components/AdminSaveContext';
 import { Save, Loader2 } from 'lucide-react';
 
+import ThemeStudioSection from './sections/ThemeStudioSection';
+
 // Placeholder/Stub components for the upcoming 12 sections
 const PlaceholderSection = ({ title }: { title: string }) => (
   <div className="p-8 text-white/50 font-sans">
@@ -53,6 +55,7 @@ const SECTION_COMPONENTS: Record<Section, React.ComponentType> = {
   'contact-reach': ContactReachSection,
   'contact-alumni': ContactAlumniSection,
   'global-footer': GlobalFooterSection,
+  'theme-studio': ThemeStudioSection,
   // Dummies for the nextjs routes to satisfy the Record type
   'analytics': () => null,
   'privacy-policy': () => null,
@@ -72,7 +75,7 @@ function AdminDashboardContent() {
   
   // To avoid fetching all sections data instantly on load, we only mount sections
   // once the user clicks on them. Then they stay mounted forever, hidden via CSS.
-  const [mountedSections, setMountedSections] = useState<Set<Section>>(new Set(['hero']));
+  const [mountedSections, setMountedSections] = useState<Set<Section>>(new Set<Section>(['hero']));
 
   const handleSectionChange = (s: Section) => {
     setActiveSection(s);
@@ -102,7 +105,7 @@ function AdminDashboardContent() {
             <button
               onClick={saveAll}
               disabled={isSavingAll}
-              className="flex items-center gap-2 px-5 py-2.5 bg-[#00B4CC] hover:bg-[#0092a6] text-white text-sm font-bold rounded-xl shadow-md transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-5 py-2.5 bg-myf-teal hover:bg-myf-tealDeep text-white text-sm font-bold rounded-xl shadow-md transition-all disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isSavingAll ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               {isSavingAll ? 'Saving All...' : 'Save All Changes'}
@@ -114,8 +117,7 @@ function AdminDashboardContent() {
           </div>
         </header>
 
-        {/* Section Content */}
-        <div className="p-8 max-w-4xl pb-32">
+        <div className="p-8 max-w-5xl pb-32">
           {Object.entries(SECTION_COMPONENTS).map(([id, Component]) => {
             if (!mountedSections.has(id as Section)) return null;
             return (
