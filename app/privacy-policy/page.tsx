@@ -17,7 +17,7 @@ export default async function PrivacyPolicyPage() {
   const policyText = await getPrivacyPolicy();
 
   return (
-    <main className="min-h-screen bg-[#F8FAFC] pt-32 pb-24">
+    <main className="min-h-screen bg-[#F8FAFC] pt-8 md:pt-12 pb-24">
       <section className="max-w-3xl mx-auto px-6 lg:px-8">
         <h1 className="text-4xl lg:text-5xl font-heading font-bold text-myf-charcoal mb-8 text-center drop-shadow-sm">
           Privacy Policy

@@ -46,7 +46,7 @@ export default async function JudgingPage() {
     <main className="min-h-screen bg-[#F8FAFC]">
       
       {/* HEADER OVERVIEW */}
-      <section className="pt-32 pb-16 px-4 text-center max-w-4xl mx-auto">
+      <section className="pt-8 md:pt-12 pb-16 px-4 text-center max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-heading font-bold text-myf-charcoal mb-6 drop-shadow-sm">
           {data.heading}
         </h1>

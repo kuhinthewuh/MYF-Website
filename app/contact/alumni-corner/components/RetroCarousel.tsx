@@ -28,46 +28,41 @@ export default function RetroCarousel({ images }: { images: AlumniImage[] }) {
   return (
     <div className="relative w-full max-w-xl mx-auto mt-12 mb-24 px-4">
       
-      {/* Decorative scattered polaroids behind */}
-      <div className="absolute inset-0 pointer-events-none opacity-40">
-        <div className="absolute top-4 -left-12 md:-left-24 w-48 h-56 bg-white shadow-xl -rotate-12 rounded-sm" />
-        <div className="absolute -bottom-8 -right-8 md:-right-16 w-56 h-64 bg-white shadow-xl rotate-6 rounded-sm" />
-      </div>
-
-      {/* Main active Polaroid */}
-      <div className="relative z-10 bg-white p-3 md:p-4 pb-12 md:pb-16 shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-sm transform origin-bottom transition-all duration-500 mx-auto">
+      {/* Sleek Modern Photo Frame */}
+      <div className="relative z-10 bg-white p-2 md:p-3 shadow-2xl rounded-2xl mx-auto border border-black/5 transform origin-bottom transition-all duration-500">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
-            initial={{ opacity: 0, scale: 0.95, y: 10, rotate: -2 }}
-            animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
-            exit={{ opacity: 0, scale: 1.05, y: -10, rotate: 2 }}
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 1.05, y: -10 }}
             transition={{ duration: 0.4 }}
-            className="w-full relative bg-gray-100 border border-gray-200"
-            style={{ aspectRatio: '1/1' }}
+            className="w-full relative bg-black rounded-xl overflow-hidden shadow-inner"
+            style={{ aspectRatio: '16/9' }}
           >
             <img 
               src={images[currentIndex].url} 
-              alt={images[currentIndex].caption} 
-              className="absolute inset-0 w-full h-full object-cover sepia-[.2] hue-rotate-[-5deg] contrast-100 mix-blend-multiply"
+              alt={images[currentIndex].caption || 'Alumni memory'} 
+              className="absolute inset-0 w-full h-full object-contain md:object-cover bg-black"
             />
           </motion.div>
         </AnimatePresence>
 
-        <div className="absolute bottom-4 left-0 w-full text-center px-4">
-           <AnimatePresence mode="wait">
-              <motion.p
-                key={currentIndex}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="font-marker text-lg md:text-2xl text-gray-800 tracking-wide"
-                style={{ fontFamily: "'Permanent Marker', 'Brush Script MT', cursive" }}
-              >
-                {images[currentIndex].caption}
-              </motion.p>
-           </AnimatePresence>
-        </div>
+        {images[currentIndex].caption ? (
+          <div className="w-full text-center px-4 pt-4 pb-2">
+             <AnimatePresence mode="wait">
+                <motion.p
+                  key={currentIndex}
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="font-sans text-base md:text-lg text-gray-800 font-medium"
+                >
+                  {images[currentIndex].caption}
+                </motion.p>
+             </AnimatePresence>
+          </div>
+        ) : null}
       </div>
 
       {/* Controls */}

@@ -27,7 +27,7 @@ export default async function HandbookPage() {
     <main className="min-h-screen bg-[#F8FAFC]">
       
       {/* HEADER */}
-      <section className="pt-32 pb-12 px-4 text-center">
+      <section className="pt-8 md:pt-12 pb-12 px-4 text-center">
         <div className="max-w-4xl mx-auto">
            <div className="inline-flex items-center justify-center p-4 bg-myf-teal/10 rounded-full mb-6 text-myf-teal">
               <FileText className="w-8 h-8" />

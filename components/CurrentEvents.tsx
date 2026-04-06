@@ -25,7 +25,7 @@ function aspectToPaddingTop(ratio: number): string {
   return `${clamped.toFixed(1)}%`;
 }
 
-export default function CurrentEvents() {
+export default function CurrentEvents({ initialData }: { initialData?: any }) {
   const [imagePath, setImagePath] = useState(DEFAULT_IMAGE);
   const [registrationLink, setRegistrationLink] = useState(DEFAULT_LINK);
   const [headerText, setHeaderText] = useState(DEFAULT_HEADER);
@@ -33,16 +33,11 @@ export default function CurrentEvents() {
   const [paddingTop, setPaddingTop] = useState('100%');
 
   useEffect(() => {
-    fetch('/api/admin/content?section=events')
-      .then((r) => r.json())
-      .then(({ data }) => {
-        if (data?.currentEvents?.imagePath) setImagePath(data.currentEvents.imagePath);
-        if (data?.currentEvents?.registrationLink) setRegistrationLink(data.currentEvents.registrationLink);
-        if (data?.currentEvents?.headerText) setHeaderText(data.currentEvents.headerText);
-        if (data?.currentEvents?.headerColor) setHeaderColor(data.currentEvents.headerColor);
-      })
-      .catch(() => { });
-  }, []);
+    if (initialData?.imagePath) setImagePath(initialData.imagePath);
+    if (initialData?.registrationLink) setRegistrationLink(initialData.registrationLink);
+    if (initialData?.headerText) setHeaderText(initialData.headerText);
+    if (initialData?.headerColor) setHeaderColor(initialData.headerColor);
+  }, [initialData]);
 
   useEffect(() => {
     detectAspectRatio(imagePath).then((ratio) => {

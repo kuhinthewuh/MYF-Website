@@ -26,7 +26,7 @@ export default async function RequestScholarshipPage() {
     <main className="min-h-screen bg-[#F8FAFC]">
       
       {/* HEADER OVERVIEW */}
-      <section className="pt-32 pb-16 px-4 text-center max-w-3xl mx-auto">
+      <section className="pt-8 md:pt-12 pb-16 px-4 text-center max-w-3xl mx-auto">
         <div className="inline-flex items-center justify-center p-4 bg-myf-gold/20 rounded-full mb-6 text-yellow-600">
            <GraduationCap className="w-10 h-10" />
         </div>

@@ -22,15 +22,28 @@ const DEFAULT_LINKS: ProgramLinks = {
 
 export default function Home() {
   const [programLinks, setProgramLinks] = useState<ProgramLinks>(DEFAULT_LINKS);
+  const [eventsData, setEventsData] = useState<any>(null);
+  const [eventsLoaded, setEventsLoaded] = useState(false);
 
   useEffect(() => {
-    fetch('/api/admin/content?section=programs')
+    fetch('/api/admin/content?section=programs', { cache: 'no-store' })
       .then((r) => r.json())
       .then(({ data }) => {
         if (data) setProgramLinks({ ...DEFAULT_LINKS, ...data });
       })
       .catch(() => { });
+
+    fetch('/api/admin/content?section=events', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then(({ data }) => setEventsData(data))
+      .catch(() => { })
+      .finally(() => setEventsLoaded(true));
   }, []);
+
+  // Safe evaluations checking specifically for nullish false, defaulting true to gracefully degrade gracefully on unmounted data objects
+  const showCurrentEvents = eventsData?.currentEvents?.enabled !== false;
+  const showContestantWidget = eventsData?.contestantWidget?.enabled !== false;
+  const hasAnyEvent = showCurrentEvents || showContestantWidget;
 
   return (
     <main className="min-h-screen bg-myf-bg overflow-x-hidden selection:bg-myf-blue selection:text-white">
@@ -38,27 +51,29 @@ export default function Home() {
       <HeaderBanner />
 
       {/* SECTION 3 - CURRENT EVENTS & CONTESTANT WIDGET */}
-      <section className="py-12 md:py-16 px-6 md:px-12 lg:px-24 bg-myf-bg relative z-20">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="mb-16 flex flex-col items-center text-center"
-          >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold text-myf-charcoal tracking-tight mb-4">
-              Upcoming Opportunities &amp; Current Events
-            </h2>
-            <div className="w-24 h-1.5 bg-gradient-to-r from-myf-teal via-myf-gold to-myf-coral rounded-full" />
-          </motion.div>
+      {eventsLoaded && hasAnyEvent && (
+        <section className="py-12 md:py-16 px-6 md:px-12 lg:px-24 bg-myf-bg relative z-20">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="mb-16 flex flex-col items-center text-center"
+            >
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold text-myf-charcoal tracking-tight mb-4">
+                Upcoming Opportunities &amp; Current Events
+              </h2>
+              <div className="w-24 h-1.5 bg-gradient-to-r from-myf-teal via-myf-gold to-myf-coral rounded-full" />
+            </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-            <CurrentEvents />
-            <ContestantWidget />
+            <div className={`grid grid-cols-1 ${showCurrentEvents && showContestantWidget ? 'lg:grid-cols-2' : ''} gap-8 md:gap-12`}>
+              {showCurrentEvents && <CurrentEvents initialData={eventsData?.currentEvents} />}
+              {showContestantWidget && <ContestantWidget initialData={eventsData?.contestantWidget} />}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* SECTION NEW - ACTION GALLERY RIBBON */}
       <ActionGallery />

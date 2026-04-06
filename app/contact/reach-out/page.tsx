@@ -31,7 +31,7 @@ export default async function ContactReachPage() {
     <main className="min-h-screen bg-[#F8FAFC]">
       
       {/* HEADER OVERVIEW */}
-      <section className="pt-32 pb-16 px-4 text-center max-w-3xl mx-auto">
+      <section className="pt-8 md:pt-12 pb-16 px-4 text-center max-w-3xl mx-auto">
         <div className="inline-flex items-center justify-center p-4 bg-myf-teal/10 rounded-full mb-6 text-myf-teal">
            <Send className="w-10 h-10" />
         </div>

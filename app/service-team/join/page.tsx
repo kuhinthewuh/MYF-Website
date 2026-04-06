@@ -28,7 +28,7 @@ export default async function ServiceJoinPage() {
     <main className="min-h-screen bg-[#F8FAFC]">
       
       {/* HEADER OVERVIEW */}
-      <section className="pt-32 pb-16 px-4 text-center max-w-4xl mx-auto">
+      <section className="pt-8 md:pt-12 pb-16 px-4 text-center max-w-4xl mx-auto">
         
         {/* Status Alert Banner */}
         <div className="mb-8 flex justify-center animate-in fade-in slide-in-from-top-4 duration-700 delay-150">

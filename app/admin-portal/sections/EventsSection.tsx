@@ -21,6 +21,7 @@ interface WidgetState {
   registrationLink: string;
   headerText: string;
   headerColor: string;
+  enabled?: boolean;
 }
 
 function EventWidget({
@@ -46,9 +47,26 @@ function EventWidget({
 
   return (
     <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-5">
-      <div className="flex items-center gap-3">
-        <div className="w-2 h-8 bg-gradient-to-b from-myf-teal to-myf-gold rounded-full" />
-        <h3 className="text-lg font-bold text-white font-sans">{title}</h3>
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-2 h-8 bg-gradient-to-b from-myf-teal to-myf-gold rounded-full" />
+          <h3 className="text-lg font-bold text-white font-sans">{title}</h3>
+        </div>
+
+        {/* Toggle Widget Visibility */}
+        <label className="flex items-center cursor-pointer gap-2 group">
+          <span className="text-sm font-sans font-bold text-white/50">{state.enabled !== false ? 'Enabled' : 'Disabled'}</span>
+          <div className="relative">
+            <input 
+              type="checkbox" 
+              className="sr-only"
+              checked={state.enabled !== false} 
+              onChange={(e) => onChange(widgetKey, 'enabled', e.target.checked as any)} 
+            />
+            <div className={`block w-11 h-6 rounded-full transition-colors ${state.enabled !== false ? 'bg-myf-teal' : 'bg-white/20'}`}></div>
+            <div className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform ${state.enabled !== false ? 'transform translate-x-5' : ''}`}></div>
+          </div>
+        </label>
       </div>
 
       {/* ── Header Text ── */}
@@ -190,32 +208,61 @@ const DEFAULT_STATE: Record<string, WidgetState> = {
     registrationLink: '#',
     headerText: 'Current Events',
     headerColor: '#1E3354',
+    enabled: true,
   },
   contestantWidget: {
     imagePath: '/images/events/current-event-placeholder.png',
     registrationLink: '#',
     headerText: 'Become a Contestant',
     headerColor: '#1a2b3c',
+    enabled: true,
   },
 };
 
 export default function EventsSection() {
   const { registerSaveAction, unregisterSaveAction } = useAdminSave();
-  useEffect(() => {
-    registerSaveAction('events', handleSave);
-    return () => unregisterSaveAction('events');
-  });
-
+  
   const [widgets, setWidgets] = useState(DEFAULT_STATE);
+  const widgetsRef = useRef(widgets);
+  useEffect(() => {
+    widgetsRef.current = widgets;
+  }, [widgets]);
+
   const [uploading, setUploading] = useState<string | null>(null);
   const [saving, setSaving] = useState<string | null>(null);
   const [toast, setToast] = useState<ToastState>({ show: false, message: '', isError: false });
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    const saveAll = async () => {
+      setSaving('all');
+      try {
+        const getRes = await fetch('/api/admin/content?section=events', { cache: 'no-store' });
+        const { data: existing } = await getRes.json();
+        const merged = { ...(existing || {}), ...widgetsRef.current };
+
+        const res = await fetch('/api/admin/content', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ section: 'events', data: merged }),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error);
+        showToast('✅ All Changes saved!');
+      } catch (err: unknown) {
+        showToast(err instanceof Error ? err.message : 'Save failed', true);
+      } finally {
+        setSaving(null);
+      }
+    };
+    registerSaveAction('events', saveAll);
+    return () => unregisterSaveAction('events');
+  }, [registerSaveAction, unregisterSaveAction]);
+
+  useEffect(() => {
     async function loadData() {
       try {
-        const res = await fetch('/api/admin/content?section=events');
+        const res = await fetch('/api/admin/content?section=events', { cache: 'no-store' });
         const { data } = await res.json();
         if (data) {
           setWidgets((prev) => ({
@@ -259,9 +306,9 @@ export default function EventsSection() {
   async function handleSave(key: string) {
     setSaving(key);
     try {
-      const getRes = await fetch('/api/admin/content?section=events');
+      const getRes = await fetch('/api/admin/content?section=events', { cache: 'no-store' });
       const { data: existing } = await getRes.json();
-      const merged = { ...(existing || {}), [key]: widgets[key] };
+      const merged = { ...(existing || {}), [key]: widgetsRef.current[key] };
 
       const res = await fetch('/api/admin/content', {
         method: 'PUT',

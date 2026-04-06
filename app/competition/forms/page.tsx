@@ -31,7 +31,7 @@ export default async function FormsPage() {
     <main className="min-h-screen bg-[#F8FAFC]">
       
       {/* HEADER */}
-      <section className="pt-32 pb-16 px-4 text-center">
+      <section className="pt-8 md:pt-12 pb-16 px-4 text-center">
         <h1 className="text-4xl md:text-5xl font-heading font-bold text-myf-charcoal mb-6 drop-shadow-sm max-w-4xl mx-auto">
           {data.heading}
         </h1>

@@ -30,7 +30,7 @@ export default async function DonatePage() {
   return (
     <main className="min-h-screen bg-[#F8FAFC]">
       
-      <section className="relative pt-32 pb-24 px-4 overflow-hidden">
+      <section className="relative pt-8 md:pt-12 pb-24 px-4 overflow-hidden">
          {/* Background Decoration */}
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[600px] bg-gradient-to-b from-myf-teal/5 to-transparent rounded-b-full pointer-events-none -z-10" />
 

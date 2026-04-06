@@ -28,7 +28,7 @@ export default async function ContestantPage() {
     <main className="min-h-screen bg-[#F8FAFC]">
       
       {/* 1. TOP SECTION (Split Layout) */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section className="pt-8 md:pt-12 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
           
           {/* Left Column: Text */}

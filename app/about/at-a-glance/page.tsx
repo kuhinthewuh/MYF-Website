@@ -75,7 +75,7 @@ export default async function AboutAtAGlance() {
   const BeliefsIcon = ICONS[data.beliefsIconName] || Star;
 
   return (
-    <main className="min-h-screen bg-myf-bg pb-24 pt-24 font-sans">
+    <main className="min-h-screen bg-myf-bg pb-24 pt-8 md:pt-12 font-sans">
 
       {/* 1. TOP HERO: Full-width edge-to-edge carousel */}
       <section className="relative w-full h-[50vh] md:h-[65vh] bg-myf-charcoal overflow-hidden group">

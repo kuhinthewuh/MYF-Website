@@ -25,7 +25,7 @@ function aspectToPaddingTop(ratio: number): string {
   return `${clamped.toFixed(1)}%`;
 }
 
-export default function ContestantWidget() {
+export default function ContestantWidget({ initialData }: { initialData?: any }) {
   const [imagePath, setImagePath] = useState(DEFAULT_IMAGE);
   const [registrationLink, setRegistrationLink] = useState(DEFAULT_LINK);
   const [headerText, setHeaderText] = useState(DEFAULT_HEADER);
@@ -33,16 +33,11 @@ export default function ContestantWidget() {
   const [paddingTop, setPaddingTop] = useState('100%');
 
   useEffect(() => {
-    fetch('/api/admin/content?section=events')
-      .then((r) => r.json())
-      .then(({ data }) => {
-        if (data?.contestantWidget?.imagePath) setImagePath(data.contestantWidget.imagePath);
-        if (data?.contestantWidget?.registrationLink) setRegistrationLink(data.contestantWidget.registrationLink);
-        if (data?.contestantWidget?.headerText) setHeaderText(data.contestantWidget.headerText);
-        if (data?.contestantWidget?.headerColor) setHeaderColor(data.contestantWidget.headerColor);
-      })
-      .catch(() => { });
-  }, []);
+    if (initialData?.imagePath) setImagePath(initialData.imagePath);
+    if (initialData?.registrationLink) setRegistrationLink(initialData.registrationLink);
+    if (initialData?.headerText) setHeaderText(initialData.headerText);
+    if (initialData?.headerColor) setHeaderColor(initialData.headerColor);
+  }, [initialData]);
 
   useEffect(() => {
     detectAspectRatio(imagePath).then((ratio) => {

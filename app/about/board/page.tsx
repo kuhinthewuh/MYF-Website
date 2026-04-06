@@ -62,7 +62,7 @@ export default async function BoardPage() {
     <main className="min-h-screen bg-[#F8FAFC] pb-32">
       
       {/* 1. HERO BANNER */}
-      <section className="pt-32 pb-16 px-4 text-center max-w-4xl mx-auto">
+      <section className="pt-8 md:pt-12 pb-16 px-4 text-center max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-heading font-bold text-myf-charcoal mb-6 drop-shadow-sm">
           {data.heroTitle}
         </h1>
