@@ -40,7 +40,7 @@ const ICONS: Record<string, React.ElementType> = {
 // Rich text helper to parse `[Text](URL)` into `<a>` tags and apply whitespace/alignment
 function RichText({ text, align = 'left' }: { text: string, align?: 'left' | 'center' | 'right' }) {
   if (!text) return null;
-  
+
   // Use Tailwind class to control multi-line text alignment securely
   const alignClass = align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left';
 
@@ -158,12 +158,12 @@ export default async function AboutAtAGlance() {
                   <h3 className="text-2xl font-bold text-myf-charcoal mb-4 shrink-0">{prog.title}</h3>
                   <div className="text-myf-muted mb-6 flex-1 leading-relaxed text-base break-words">
                     <RichText text={prog.description} align={prog.align} />
-                    
+
                     {prog.customLinks && prog.customLinks.length > 0 && (
                       <div className={`mt-4 space-y-2 flex flex-col ${prog.align === 'center' ? 'items-center' : prog.align === 'right' ? 'items-end' : 'items-start'}`}>
                         {prog.customLinks.map((link: any, lIdx: number) => (
-                          <Link 
-                            key={lIdx} 
+                          <Link
+                            key={lIdx}
                             href={link.url}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -171,7 +171,7 @@ export default async function AboutAtAGlance() {
                           >
                             <span className="border-b border-transparent group-hover/link:border-myf-deep">{link.displayText}</span>
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform -translate-y-px">
-                               <path d="M5 19L19 5M19 5V15M19 5H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M5 19L19 5M19 5V15M19 5H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           </Link>
                         ))}

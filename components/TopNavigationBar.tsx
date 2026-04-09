@@ -45,8 +45,8 @@ export default function TopNavigationBar() {
   // Nav Item Structure for DRY rendering
   const navItems = [
     { label: "HOME", href: LINKS.home },
-    { 
-      label: "ABOUT US", 
+    {
+      label: "ABOUT US",
       dropdown: [
         { label: "MYF At a Glance", href: LINKS.about.atAGlance },
         { label: "History of Excellence", href: LINKS.about.history },
@@ -87,18 +87,18 @@ export default function TopNavigationBar() {
       */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex justify-between items-center">
-          
+
           {/* Logo Area */}
           <div className="flex-shrink-0 flex items-center gap-3">
-             {/* Note: Using synthetic logo to match screenshot style */}
-             <div className="w-12 h-12 relative flex items-center justify-center">
-               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-myf-gold fill-current">
-                 <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-               </svg>
-             </div>
-             <div className="text-xl md:text-2xl font-sans text-myf-charcoal">
-               manteca<span className="text-myf-teal font-bold italic">youthfocus</span>
-             </div>
+            {/* Note: Using synthetic logo to match screenshot style */}
+            <div className="w-12 h-12 relative flex items-center justify-center">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-myf-gold fill-current">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+              </svg>
+            </div>
+            <div className="text-xl md:text-2xl font-sans text-myf-charcoal">
+              manteca<span className="text-myf-teal font-bold italic">youthfocus</span>
+            </div>
           </div>
 
           {/* Social Icons (Desktop) & Mobile Hamburger */}
@@ -111,10 +111,10 @@ export default function TopNavigationBar() {
                 <Instagram className="w-8 h-8" strokeWidth={2.5} />
               </a>
             </div>
-            
+
             {/* Mobile Menu Toggle */}
             <div className="md:hidden flex items-center">
-              <button 
+              <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="text-myf-charcoal hover:text-myf-teal transition-colors p-2"
               >
@@ -132,53 +132,53 @@ export default function TopNavigationBar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ul className="flex flex-wrap justify-center items-center gap-x-8 gap-y-2">
             {navItems.map((item, index) => (
-              <li 
-                key={index} 
+              <li
+                key={index}
                 className="relative group"
                 onMouseEnter={() => setActiveDropdown(item.label)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
                 {item.href ? (
-                   // Direct Link
-                   <a 
-                     href={item.href}
-                     className="text-sm font-semibold tracking-wide uppercase transition-colors relative py-2 block text-myf-charcoal/80 hover:text-myf-teal"
-                   >
-                     {item.label}
-                     {/* Hover Underline */}
-                     <span className="absolute bottom-0 left-0 w-full h-[2px] bg-myf-teal scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-                   </a>
+                  // Direct Link
+                  <a
+                    href={item.href}
+                    className="text-sm font-semibold tracking-wide uppercase transition-colors relative py-2 block text-myf-charcoal/80 hover:text-myf-teal"
+                  >
+                    {item.label}
+                    {/* Hover Underline */}
+                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-myf-teal scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+                  </a>
                 ) : (
-                   // Dropdown Trigger
-                   <div className="cursor-pointer text-myf-charcoal/80 hover:text-myf-teal text-sm font-semibold tracking-wide uppercase flex items-center gap-1 py-2 relative">
-                     {item.label}
-                     <ChevronDown className="w-4 h-4" />
-                     {/* Hover Underline */}
-                     <span className="absolute bottom-0 left-0 w-full h-[2px] bg-myf-teal scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-                     
-                     {/* Desktop Dropdown Floating Card */}
-                     <AnimatePresence>
-                       {activeDropdown === item.label && item.dropdown && (
-                         <motion.div 
-                           initial={{ opacity: 0, y: 10 }}
-                           animate={{ opacity: 1, y: 0 }}
-                           exit={{ opacity: 0, y: 10 }}
-                           transition={{ duration: 0.2, ease: "easeInOut" }}
-                           className="absolute top-full left-0 mt-2 w-64 bg-myf-surface rounded-xl shadow-xl border border-black/5 overflow-hidden z-50 py-2"
-                         >
-                           {item.dropdown.map((dropItem, dIdx) => (
-                             <a 
-                               key={dIdx}
-                               href={dropItem.href}
-                               className="block px-6 py-3 text-sm font-medium text-myf-charcoal/70 hover:text-myf-teal hover:bg-myf-bg transition-colors normal-case"
-                             >
-                               {dropItem.label}
-                             </a>
-                           ))}
-                         </motion.div>
-                       )}
-                     </AnimatePresence>
-                   </div>
+                  // Dropdown Trigger
+                  <div className="cursor-pointer text-myf-charcoal/80 hover:text-myf-teal text-sm font-semibold tracking-wide uppercase flex items-center gap-1 py-2 relative">
+                    {item.label}
+                    <ChevronDown className="w-4 h-4" />
+                    {/* Hover Underline */}
+                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-myf-teal scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+
+                    {/* Desktop Dropdown Floating Card */}
+                    <AnimatePresence>
+                      {activeDropdown === item.label && item.dropdown && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.2, ease: "easeInOut" }}
+                          className="absolute top-full left-0 mt-2 w-64 bg-myf-surface rounded-xl shadow-xl border border-black/5 overflow-hidden z-50 py-2"
+                        >
+                          {item.dropdown.map((dropItem, dIdx) => (
+                            <a
+                              key={dIdx}
+                              href={dropItem.href}
+                              className="block px-6 py-3 text-sm font-medium text-myf-charcoal/70 hover:text-myf-teal hover:bg-myf-bg transition-colors normal-case"
+                            >
+                              {dropItem.label}
+                            </a>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 )}
               </li>
             ))}
@@ -191,7 +191,7 @@ export default function TopNavigationBar() {
       */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -202,7 +202,7 @@ export default function TopNavigationBar() {
               {navItems.map((item, index) => (
                 <div key={index} className="border-b border-black/5 pb-2">
                   {item.href ? (
-                    <a 
+                    <a
                       href={item.href}
                       className={`block py-3 text-base font-semibold text-myf-charcoal`}
                       onClick={() => setMobileMenuOpen(false)}
@@ -211,24 +211,24 @@ export default function TopNavigationBar() {
                     </a>
                   ) : (
                     <div>
-                      <button 
+                      <button
                         onClick={() => setActiveDropdown(activeDropdown === item.label ? null : item.label)}
                         className="flex items-center justify-between w-full py-3 text-base font-semibold text-myf-charcoal"
                       >
                         {item.label}
                         <ChevronDown className={`w-5 h-5 transition-transform ${activeDropdown === item.label ? 'rotate-180 text-myf-teal' : ''}`} />
                       </button>
-                      
+
                       <AnimatePresence>
                         {activeDropdown === item.label && item.dropdown && (
-                          <motion.div 
+                          <motion.div
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             className="overflow-hidden pl-4 pr-2"
                           >
                             {item.dropdown.map((dropItem, dIdx) => (
-                              <a 
+                              <a
                                 key={dIdx}
                                 href={dropItem.href}
                                 className="block py-3 text-sm text-myf-charcoal/70 active:text-myf-teal"
@@ -244,15 +244,15 @@ export default function TopNavigationBar() {
                   )}
                 </div>
               ))}
-              
+
               {/* Mobile Socials */}
               <div className="flex justify-center gap-6 pt-6 pb-4 text-myf-teal">
-                 <a href={LINKS.social.facebook} target="_blank" rel="noopener noreferrer">
-                   <Facebook className="w-8 h-8 fill-current" />
-                 </a>
-                 <a href={LINKS.social.instagram} target="_blank" rel="noopener noreferrer">
-                   <Instagram className="w-8 h-8" strokeWidth={2.5} />
-                 </a>
+                <a href={LINKS.social.facebook} target="_blank" rel="noopener noreferrer">
+                  <Facebook className="w-8 h-8 fill-current" />
+                </a>
+                <a href={LINKS.social.instagram} target="_blank" rel="noopener noreferrer">
+                  <Instagram className="w-8 h-8" strokeWidth={2.5} />
+                </a>
               </div>
             </div>
           </motion.div>
