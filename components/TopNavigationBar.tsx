@@ -89,16 +89,14 @@ export default function TopNavigationBar() {
         <div className="flex justify-between items-center">
 
           {/* Logo Area */}
-          <div className="flex-shrink-0 flex items-center gap-3">
-            {/* Note: Using synthetic logo to match screenshot style */}
-            <div className="w-12 h-12 relative flex items-center justify-center">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-myf-gold fill-current">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-              </svg>
-            </div>
-            <div className="text-xl md:text-2xl font-sans text-myf-charcoal">
-              manteca<span className="text-myf-teal font-bold italic">youthfocus</span>
-            </div>
+          <div className="flex-shrink-0 flex items-center">
+            <a href="/" className="relative flex items-center">
+              <img 
+                src="/images/cropped-MYF-Logo.png"
+                alt="Manteca Youth Focus Logo"
+                className="h-10 md:h-14 w-auto object-contain drop-shadow-sm"
+              />
+            </a>
           </div>
 
           {/* Social Icons (Desktop) & Mobile Hamburger */}

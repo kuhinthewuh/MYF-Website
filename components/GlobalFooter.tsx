@@ -26,14 +26,14 @@ export default async function GlobalFooter() {
   const data = await getFooterData();
 
   return (
-    <footer className="bg-myf-dark-blue text-white pt-16 pb-8 border-t border-white/5 relative z-50">
+    <footer className="bg-myf-dark-blue text-white pt-10 pb-6 border-t border-white/5 relative z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-8">
           
           {/* Brand & Description */}
-          <div className="md:col-span-5 space-y-6">
+          <div className="md:col-span-5 space-y-4">
             <Link href="/" className="inline-block">
-              <img src={data.logoUrl || '/images/MYF%20Logo.png'} alt="MYF Logo" className="h-20 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity" />
+              <img src={data.logoUrl || '/images/MYF%20Logo.png'} alt="MYF Logo" className="h-12 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity" />
             </Link>
             <p className="text-white/60 leading-relaxed max-w-sm text-sm">
               {data.description}
@@ -42,8 +42,8 @@ export default async function GlobalFooter() {
 
           {/* Quick Links */}
           <div className="md:col-span-4 lg:col-span-3 lg:col-start-7">
-            <h4 className="text-lg font-bold font-sans mb-6 text-white tracking-wide">Quick Links</h4>
-            <ul className="space-y-4">
+            <h4 className="text-base font-bold font-sans mb-4 text-white tracking-wide">Quick Links</h4>
+            <ul className="space-y-2">
               {data.quickLinks?.map((link: any, idx: number) => (
                 <li key={idx}>
                   <Link href={link.url} className="group inline-flex text-white/50 hover:text-myf-teal transition-colors duration-300 text-sm font-medium">
@@ -56,8 +56,8 @@ export default async function GlobalFooter() {
 
           {/* Social Links */}
           <div className="md:col-span-3">
-            <h4 className="text-lg font-bold font-sans mb-6 text-white tracking-wide">Connect</h4>
-            <ul className="space-y-4">
+            <h4 className="text-base font-bold font-sans mb-4 text-white tracking-wide">Connect</h4>
+            <ul className="space-y-2">
               {data.socialLinks?.map((social: any, idx: number) => (
                 <li key={idx}>
                   <a href={social.url} target="_blank" rel="noopener noreferrer" className="group inline-flex text-white/50 hover:text-myf-teal transition-colors duration-300 text-sm font-medium">
@@ -71,7 +71,7 @@ export default async function GlobalFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-white/40 text-xs font-medium">{data.copyright}</p>
         </div>
       </div>

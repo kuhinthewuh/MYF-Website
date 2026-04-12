@@ -218,7 +218,7 @@ export default function ThemeStudioSection() {
         </p>
       </div>
 
-       <div className="flex gap-4 border-b border-white/10 pb-2">
+       <div className="flex flex-col sm:flex-row gap-4 border-b border-white/10 pb-2">
          <button 
            onClick={() => setActiveTab('ai')}
            className={`pb-2 font-bold uppercase tracking-wider text-sm border-b-2 px-4 transition-colors ${activeTab === 'ai' ? 'text-white border-purple-500' : 'text-white/40 border-transparent hover:text-white/70'}`}
@@ -237,7 +237,7 @@ export default function ThemeStudioSection() {
 
       {activeTab === 'ai' ? (
         <>
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <button onClick={generateMLTheme} disabled={isLoading} className="flex-1 p-6 bg-[#0d1117] border border-white/10 hover:border-purple-400/50 hover:bg-white/5 rounded-2xl flex items-center gap-4 transition-all group disabled:opacity-50 text-left cursor-pointer">
                <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center shrink-0">
                  {isLoading ? <Loader2 className="w-6 h-6 text-purple-400 animate-spin" /> : <Wand2 className="w-6 h-6 text-purple-400 group-hover:scale-110 transition-transform" />}
@@ -389,7 +389,7 @@ export default function ThemeStudioSection() {
               <p className="text-lg transition-colors duration-1000" style={{ color: displayTheme.textMuted }}>
                  Manteca Youth Focus provides community service and leadership opportunities for young men and women.
               </p>
-              <div className="flex gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
                  <button className="px-6 py-3 rounded-xl font-bold text-white transition-all hover:scale-105" style={{ backgroundColor: displayTheme.primary, boxShadow: `0 4px 14px 0 ${(displayTheme.primary || '#000000')}80` }}>
                     Get Involved
                  </button>
@@ -397,8 +397,8 @@ export default function ThemeStudioSection() {
                     Donate Today
                  </button>
               </div>
-              <div className="pt-8 w-full flex items-center gap-4">
-                 <div className="flex-1 h-32 rounded-xl flex items-center justify-center border shadow-sm transition-colors duration-1000" style={{ backgroundColor: displayTheme.surface, borderColor: displayTheme.primaryDeep }}>
+              <div className="pt-8 w-full flex flex-col sm:flex-row items-center gap-4">
+                 <div className="flex-1 w-full h-32 rounded-xl flex items-center justify-center border shadow-sm transition-colors duration-1000" style={{ backgroundColor: displayTheme.surface, borderColor: displayTheme.primaryDeep }}>
                     <p style={{ color: displayTheme.textMain }} className="font-semibold text-sm">Surface Example 1</p>
                  </div>
                  <div className="flex-1 h-32 rounded-xl flex items-center justify-center border shadow-sm transition-colors duration-1000" style={{ backgroundColor: displayTheme.surface, borderColor: displayTheme.accent }}>

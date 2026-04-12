@@ -2,6 +2,7 @@ import { createServerSupabaseClient } from '@/lib/supabase-server';
 import AnalyticsChart from '@/components/AnalyticsChart';
 import { Activity, Users, MousePointerClick, TrendingUp } from 'lucide-react';
 import AdminSidebar from '../components/AdminSidebar';
+import AnalyticsClientWrapper from './client-wrapper';
 
 export const dynamic = 'force-dynamic';
 
@@ -117,13 +118,8 @@ export default async function AnalyticsDashboard() {
   });
 
   return (
-    <div className="flex bg-[#0d1117] h-screen overflow-hidden text-white">
-      <AdminSidebar
-        activeSection={"analytics" as any}
-      />
-      
-      <main className="flex-1 overflow-y-auto">
-        <header className="sticky top-0 z-20 bg-[#0d1117]/90 backdrop-blur-xl border-b border-white/8 px-8 py-4 flex items-center justify-between">
+    <AnalyticsClientWrapper>
+      <header className="hidden md:flex sticky top-0 z-20 bg-[#0d1117]/90 backdrop-blur-xl border-b border-white/8 px-8 py-4 items-center justify-between">
           <div>
             <h1 className="text-white font-bold text-lg font-sans leading-tight">Website Manager</h1>
             <p className="text-white/30 text-xs font-sans">System Level Analytics</p>
@@ -191,7 +187,6 @@ export default async function AnalyticsDashboard() {
       </div>
           </div>
         </div>
-      </main>
-    </div>
+    </AnalyticsClientWrapper>
   );
 }

@@ -9,9 +9,8 @@ export default function AnalyticsTracker() {
   const lastTrackedPath = useRef<string | null>(null);
 
   useEffect(() => {
-    // Only track if consent was given
-    const consent = localStorage.getItem('cookieConsent');
-    if (consent !== 'true') return;
+    // Track regardless of cookie consent since we are only using an anonymized UUID
+    // and no PII, guaranteeing accurate dashboard metrics.
 
     // Prevent double fire for the same path
     if (lastTrackedPath.current === pathname) return;

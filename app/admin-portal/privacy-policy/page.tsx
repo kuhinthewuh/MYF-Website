@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 import { Save, Loader2, Link as LinkIcon } from 'lucide-react';
 import AdminSidebar from '../components/AdminSidebar';
 import Link from 'next/link';
+import { Menu } from 'lucide-react';
 
 export default function AdminPrivacyPolicy() {
   const [content, setContent] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     fetch('/api/admin/content?id=privacy-policy')
@@ -52,8 +54,8 @@ export default function AdminPrivacyPolicy() {
 
   if (!isLoaded) {
     return (
-      <div className="flex bg-[#0d1117] h-screen overflow-hidden text-white">
-        <AdminSidebar activeSection={"privacy-policy" as any} />
+      <div className="flex bg-[#0d1117] h-screen overflow-hidden text-white relative">
+        <AdminSidebar activeSection={"privacy-policy" as any} isOpen={false} />
         <main className="flex-1 overflow-y-auto flex items-center justify-center">
           <Loader2 className="w-8 h-8 animate-spin text-myf-teal" />
         </main>
@@ -62,10 +64,33 @@ export default function AdminPrivacyPolicy() {
   }
 
   return (
-    <div className="flex bg-[#0d1117] h-screen overflow-hidden text-white">
-      <AdminSidebar activeSection={"privacy-policy" as any} />
-      <main className="flex-1 overflow-y-auto">
-        <header className="sticky top-0 z-20 bg-[#0d1117]/90 backdrop-blur-xl border-b border-white/8 px-8 py-4 flex items-center justify-between">
+    <div className="flex bg-[#0d1117] h-screen overflow-hidden text-white relative">
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+      
+      <AdminSidebar 
+        activeSection={"privacy-policy" as any} 
+        isOpen={isSidebarOpen} 
+        onClose={() => setIsSidebarOpen(false)} 
+      />
+      
+      <main className="flex-1 overflow-y-auto flex flex-col">
+        {/* Mobile Header */}
+        <div className="flex md:hidden sticky top-0 z-20 bg-[#0d1117] border-b border-white/8 px-4 py-3 items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button onClick={() => setIsSidebarOpen(true)} className="text-white/70 hover:text-white p-1">
+              <Menu className="w-6 h-6" />
+            </button>
+            <span className="text-white font-bold text-base font-sans">Admin Portal</span>
+          </div>
+        </div>
+
+        {/* Desktop Header */}
+        <header className="hidden md:flex sticky top-0 z-20 bg-[#0d1117]/90 backdrop-blur-xl border-b border-white/8 px-8 py-4 items-center justify-between">
           <div>
             <h1 className="text-white font-bold text-lg font-sans leading-tight">Website Manager</h1>
             <p className="text-white/30 text-xs font-sans">Global Setup</p>

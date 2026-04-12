@@ -21,7 +21,7 @@ import ContactReachSection from './sections/ContactReachSection';
 import ContactAlumniSection from './sections/ContactAlumniSection';
 import GlobalFooterSection from './sections/GlobalFooterSection';
 import { AdminSaveProvider, useAdminSave } from './components/AdminSaveContext';
-import { Save, Loader2 } from 'lucide-react';
+import { Save, Loader2, Menu } from 'lucide-react';
 
 import ThemeStudioSection from './sections/ThemeStudioSection';
 
@@ -71,6 +71,7 @@ export default function AdminDashboard() {
 
 function AdminDashboardContent() {
   const [activeSection, setActiveSection] = useState<Section>('hero');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { saveAll, isSavingAll } = useAdminSave();
   
   // To avoid fetching all sections data instantly on load, we only mount sections
@@ -87,16 +88,47 @@ function AdminDashboardContent() {
   };
 
   return (
-    <div className="flex bg-[#0d1117] h-screen overflow-hidden">
+    <div className="flex bg-[#0d1117] h-screen overflow-hidden relative">
+      {/* Backdrop Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       <AdminSidebar
         activeSection={activeSection}
         onSectionChange={handleSectionChange}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
       />
 
       {/* Main Content Area */}
       <main className="flex-1 overflow-y-auto">
-        {/* Top Bar */}
-        <header className="sticky top-0 z-20 bg-[#0d1117]/90 backdrop-blur-xl border-b border-white/8 px-8 py-4 flex items-center justify-between">
+        {/* Mobile Header */}
+        <div className="flex md:hidden sticky top-0 z-20 bg-[#0d1117] border-b border-white/8 px-4 py-3 items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="text-white/70 hover:text-white p-1"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+            <span className="text-white font-bold text-base font-sans">Admin Portal</span>
+          </div>
+          <button
+            onClick={saveAll}
+            disabled={isSavingAll}
+            className="flex items-center gap-2 px-3 py-1.5 bg-myf-teal hover:bg-myf-tealDeep text-white text-xs font-bold rounded-lg shadow-md transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {isSavingAll ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            Save
+          </button>
+        </div>
+
+        {/* Desktop Top Bar */}
+        <header className="hidden md:flex sticky top-0 z-20 bg-[#0d1117]/90 backdrop-blur-xl border-b border-white/8 px-8 py-4 items-center justify-between">
           <div>
             <h1 className="text-white font-bold text-lg font-sans leading-tight">Website Manager</h1>
             <p className="text-white/30 text-xs font-sans">Changes publish instantly to the live site</p>

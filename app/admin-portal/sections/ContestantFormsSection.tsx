@@ -145,7 +145,7 @@ export default function ContestantFormsSection() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
       <Toast toast={toast} />
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-white font-sans">Contestant Forms</h2>
           <p className="text-white/40 text-sm font-sans mt-1">Manage the chronological stepper and forms</p>
@@ -173,7 +173,7 @@ export default function ContestantFormsSection() {
 
         {/* STEPPER ARRAY EDITOR */}
         <section className="space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <h3 className="text-lg font-bold text-white font-sans">Stepper Timeline</h3>
             <button onClick={addStep} className="flex items-center gap-1 text-sm text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-3 py-1.5 rounded-lg">
                <Plus className="w-4 h-4" /> Add Step Segment
@@ -186,13 +186,13 @@ export default function ContestantFormsSection() {
                 
                 <button 
                   onClick={() => setExpandedStep(expandedStep === sIdx ? null : sIdx)}
-                  className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors pr-12"
+                  className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors pr-12 text-left"
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 flex-1 min-w-0">
                     <div className="w-8 h-8 rounded-full bg-myf-teal/20 text-myf-teal flex items-center justify-center font-bold font-sans shrink-0">
                       {sIdx + 1}
                     </div>
-                    <span className="font-bold text-white font-sans text-left truncate">
+                    <span className="font-bold text-white font-sans text-left truncate flex-1 min-w-0">
                       {step.nodes && step.nodes.length > 0 ? step.nodes[0].title : 'Empty Step'} 
                       {step.nodes && step.nodes.length > 1 && ` (+${step.nodes.length - 1} more nodes)`}
                     </span>
@@ -209,7 +209,7 @@ export default function ContestantFormsSection() {
                 {expandedStep === sIdx && (
                   <div className="p-4 border-t border-white/10 bg-[#0a0f1a]/50 space-y-8">
                     
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
                        <h4 className="text-sm font-bold text-white/60 uppercase tracking-widest font-sans">Nodes in this Step</h4>
                        <button onClick={() => addNode(sIdx)} className="flex items-center gap-1 text-[10px] text-myf-teal hover:text-white transition-colors bg-myf-teal/10 px-2 py-1 rounded">
                           <Plus className="w-3 h-3" /> Add Node

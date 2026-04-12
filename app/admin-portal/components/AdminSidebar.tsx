@@ -119,9 +119,11 @@ const NAV_GROUPS: NavCategory[] = [
 interface AdminSidebarProps {
   activeSection: Section;
   onSectionChange?: (s: Section) => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-export default function AdminSidebar({ activeSection, onSectionChange }: AdminSidebarProps) {
+export default function AdminSidebar({ activeSection, onSectionChange, isOpen, onClose }: AdminSidebarProps) {
   const router = useRouter();
   // Keep track of which categories are expanded. Start with Home Page open.
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
@@ -140,13 +142,11 @@ export default function AdminSidebar({ activeSection, onSectionChange }: AdminSi
   }
 
   return (
-    <aside className="w-72 min-h-screen bg-[#0a0f1a] border-r border-white/8 flex flex-col">
+    <aside className={`fixed inset-y-0 left-0 z-50 w-64 md:w-72 bg-[#0a0f1a] border-r border-white/8 flex flex-col transition-transform duration-300 ease-in-out transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:block md:min-h-screen`}>
       {/* Brand Header */}
       <div className="p-6 border-b border-white/8 shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-myf-teal via-[#C8962E] to-[#E8734A] rounded-xl flex items-center justify-center flex-shrink-0">
-            <Star className="w-5 h-5 text-white fill-white/30" />
-          </div>
+          <img src="/images/cropped-MYF-Logo.png" alt="MYF Logo" className="w-10 h-10 object-contain rounded" />
           <div>
             <p className="text-white font-bold text-sm font-sans leading-tight">MYF Admin</p>
             <p className="text-white/35 text-xs font-sans">Director Portal</p>
@@ -164,9 +164,9 @@ export default function AdminSidebar({ activeSection, onSectionChange }: AdminSi
             <div key={group.title} className="space-y-1">
               <button 
                 onClick={() => toggleGroup(group.title)}
-                className="w-full flex items-center justify-between px-2 py-2 text-white/40 hover:text-white/70 transition-colors group/btn"
+                className="w-full flex items-center justify-between px-2 py-2 text-white/40 hover:text-white/70 transition-colors group/btn text-left"
               >
-                <span className={`text-[11px] font-bold uppercase tracking-widest font-sans ${hasActiveItem && !isOpen ? 'text-myf-teal' : ''}`}>
+                <span className={`text-[11px] font-bold uppercase tracking-widest font-sans text-left ${hasActiveItem && !isOpen ? 'text-myf-teal' : ''}`}>
                   {group.title}
                 </span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
@@ -186,6 +186,7 @@ export default function AdminSidebar({ activeSection, onSectionChange }: AdminSi
                         } else {
                           onSectionChange?.(id as Section);
                         }
+                        onClose?.();
                       }}
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left group ${
                         isActive
